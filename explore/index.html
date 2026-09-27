@@ -335,6 +335,18 @@
   <h1>Explore the data</h1>
   <p class="dek">Analyses beyond the main browse table, over the combined keyword-search + forward/backward-snowball corpus (22,165 records, 3,233 included). <a href="../index.html">&larr; back to the main review</a></p>
 
+  <section id="ask-section">
+    <h2>Ask the data</h2>
+    <p class="section-note">Answers computed live from the same data as the charts below -- institutions, countries, venues, bot personas, governance categories, years, and citation counts. No per-author data yet (only institution/country affiliations were fetched), so a question about a specific person won't resolve, only the institution named in it. Try: <i>"which institution has the most papers"</i>, <i>"how many papers from Carnegie Mellon University"</i>, <i>"most cited paper"</i>, <i>"papers about chatbots in 2023"</i>, <i>"which country has the most citations"</i>.</p>
+    <div class="chart-card">
+      <div class="controls" style="margin-bottom:10px">
+        <input type="text" id="ask-input" placeholder="Ask a question about this dataset…" autocomplete="off" style="flex:1; min-width:220px; padding:9px 12px; border-radius:8px; border:1px solid var(--rule); background:var(--surface); color:var(--ink); font-size:14px">
+        <button id="ask-submit" class="loadmore" style="margin:0">Ask</button>
+      </div>
+      <div id="ask-answer" class="section-note" style="margin:0"></div>
+    </div>
+  </section>
+
   <section>
     <h2>Seed-centered citation network</h2>
     <p class="section-note">The 7 seed papers (large diamonds), each shown with its top 18 highest-cited backward references and forward citing papers (colored by which seed they came from; a paper connected to two seeds shows only its first-found link here). Solid seed-to-seed lines mean one seed cites another directly. Hover a node for its title; node size scales with citation count.</p>
@@ -858,6 +870,137 @@
     if (!TD || !TD.terms.length){ if (sec) sec.hidden = true; return; }
     stackedBar('chart-topics', 'legend-topics', TD.years, TD.terms, TD.matrix);
   }
+
+  // ---------------- ask the data (pattern-matched over the aggregate data already loaded on
+  // this page -- NOT a full-text/LLM search, and no per-author data since only institution-level
+  // affiliations were fetched) ----------------
+  function fmtNum(n){ return n.toLocaleString(); }
+
+  function findEntity(qLower, list, nameKey){
+    // longest matching name wins, so "Carnegie Mellon University" beats a shorter false-positive
+    var best = null, bestLen = 0;
+    list.forEach(function(item){
+      var name = (item[nameKey] || '').toLowerCase();
+      if (name && name.length > 2 && qLower.indexOf(name) !== -1 && name.length > bestLen){
+        best = item; bestLen = name.length;
+      }
+    });
+    return best;
+  }
+
+  function answerQuery(q){
+    var qLower = q.toLowerCase().trim();
+    if (!qLower) return 'Type a question above, then press Ask (or Enter).';
+
+    var yearMatch = qLower.match(/\b(20(1[6-9]|2[0-6]))\b/);
+    var year = yearMatch ? parseInt(yearMatch[1], 10) : null;
+    var wantsTop = /\b(most|top|highest|leading|largest)\b/.test(qLower);
+    var wantsCitations = /\bcit(ations?|ed|es)\b/.test(qLower);
+
+    // -- institution --
+    var inst = D.inst_country ? findEntity(qLower, D.inst_country.institutions, 'name') : null;
+    if (inst){
+      return '<b>' + esc(inst.name) + '</b> (' + esc(inst.country || '—') + '): ' +
+        '<b>' + inst.pubs + '</b> publications, <b>' + fmtNum(inst.citations) + '</b> total citations ' +
+        '(summed across its papers) among included papers.';
+    }
+
+    // -- country --
+    var country = D.inst_country ? findEntity(qLower, D.inst_country.countries, 'name') : null;
+    if (country){
+      return '<b>' + esc(country.name) + '</b>: <b>' + country.pubs + '</b> publications, ' +
+        '<b>' + fmtNum(country.citations) + '</b> total citations, among included papers.';
+    }
+
+    // -- "which institution/country has the most ..." (no specific name given) --
+    if (wantsTop && /\binstitution|school|university|college\b/.test(qLower) && D.inst_country){
+      var topInst = D.inst_country.institutions.slice().sort(function(a,b){
+        return wantsCitations ? b.citations - a.citations : b.pubs - a.pubs;
+      })[0];
+      if (topInst) return 'Top institution by ' + (wantsCitations ? 'citations' : 'publications') +
+        ': <b>' + esc(topInst.name) + '</b> (' + topInst.pubs + ' papers, ' + fmtNum(topInst.citations) + ' citations).';
+    }
+    if (wantsTop && /\bcountry|countries|nation\b/.test(qLower) && D.inst_country){
+      var topCountry = D.inst_country.countries.slice().sort(function(a,b){
+        return wantsCitations ? b.citations - a.citations : b.pubs - a.pubs;
+      })[0];
+      if (topCountry) return 'Top country by ' + (wantsCitations ? 'citations' : 'publications') +
+        ': <b>' + esc(topCountry.name) + '</b> (' + topCountry.pubs + ' papers, ' + fmtNum(topCountry.citations) + ' citations).';
+    }
+
+    // -- most/top cited paper --
+    if (wantsTop && /\bcited|citation\b/.test(qLower) && /\bpaper\b/.test(qLower) && D.top_cited && D.top_cited.length){
+      var tc = D.top_cited[0];
+      return 'Most-cited record overall: <b>&ldquo;' + esc(tc.t) + '&rdquo;</b> (' + fmtNum(tc.c) + ' citations, ' + (tc.y||'—') + ').';
+    }
+    // -- fastest / citation velocity --
+    if (/\bfast|velocity|accumulat/.test(qLower) && D.citation_velocity && D.citation_velocity.top_velocity.length){
+      var tv = D.citation_velocity.top_velocity[0];
+      return 'Fastest-accumulating paper: <b>&ldquo;' + esc(tv.t) + '&rdquo;</b> at <b>' + tv.velocity + '</b> citations/year (' + fmtNum(tv.c) + ' total, ' + tv.y + ').';
+    }
+
+    // -- bot persona --
+    var persona = D.persona_cooc ? findEntity(qLower, D.persona_cooc.labels.map(function(l,i){return {name:l, i:i};}), 'name') : null;
+    if (persona){
+      var count = D.persona_cooc.matrix[persona.i][persona.i];
+      return '<b>' + esc(persona.name) + '</b>: tagged on <b>' + count + '</b> included papers.';
+    }
+
+    // -- governance typology --
+    var typ = D.actor_typ ? findEntity(qLower, D.actor_typ.typologies.map(function(l,i){return {name:l, i:i};}), 'name') : null;
+    if (typ){
+      var total = D.actor_typ.matrix.reduce(function(sum, row){ return sum + row[typ.i]; }, 0);
+      return '<b>' + esc(typ.name) + '</b>: <b>' + total + '</b> included papers address this (across all governance actors).';
+    }
+
+    // -- governance actor (platform / government / civil_society) --
+    var actorNames = {platform:'platform', government:'government', civil_society:'civil society'};
+    for (var ai = 0; ai < D.actor_typ.actors.length; ai++){
+      var an = actorNames[D.actor_typ.actors[ai]] || D.actor_typ.actors[ai];
+      if (qLower.indexOf(an) !== -1){
+        var atotal = D.actor_typ.matrix[ai].reduce(function(a,b){return a+b;}, 0);
+        return '<b>' + esc(an) + '</b> governance actor: <b>' + atotal + '</b> included papers address it.';
+      }
+    }
+
+    // -- venue --
+    var venue = D.venues ? findEntity(qLower, D.venues, 'venue') : null;
+    if (venue){
+      return '<b>' + esc(venue.venue) + '</b>: <b>' + venue.n + '</b> records (included + excluded).';
+    }
+
+    // -- topic-drift term --
+    if (D.topic_drift && D.topic_drift.terms){
+      for (var ti = 0; ti < D.topic_drift.terms.length; ti++){
+        var term = D.topic_drift.terms[ti];
+        if (qLower.indexOf(term) !== -1){
+          if (year && D.topic_drift.years.indexOf(year) !== -1){
+            var yi2 = D.topic_drift.years.indexOf(year);
+            return '&ldquo;<b>' + esc(term) + '</b>&rdquo; appeared in title keywords of <b>' + D.topic_drift.matrix[yi2][ti] + '</b> included papers in ' + year + '.';
+          }
+          var totalTerm = D.topic_drift.matrix.reduce(function(sum,row){return sum+row[ti];}, 0);
+          return '&ldquo;<b>' + esc(term) + '</b>&rdquo; appeared in title keywords of <b>' + totalTerm + '</b> included papers across all years tracked (top-12 title-keyword list only -- see the topic drift chart).';
+        }
+      }
+    }
+
+    // -- year only, no other entity --
+    if (year && D.citation_velocity){
+      var yearRow = D.citation_velocity.avg_by_year.filter(function(a){ return a.year === year; })[0];
+      if (yearRow) return '<b>' + year + '</b>: <b>' + yearRow.n + '</b> included papers, averaging ' + yearRow.avg_velocity + ' citations/year each.';
+    }
+
+    return "I couldn't match that to an institution, country, bot persona, governance category, venue, or tracked title-keyword in this dataset. Try naming one of those directly, e.g. \"Carnegie Mellon University\", \"United States\", \"Chaos Bot\", or \"Legal & Regulatory Frameworks\".";
+  }
+
+  var askInput = document.getElementById('ask-input');
+  var askAnswer = document.getElementById('ask-answer');
+  function runAsk(){
+    if (!askInput.value.trim()) return;
+    askAnswer.innerHTML = answerQuery(askInput.value);
+  }
+  document.getElementById('ask-submit').addEventListener('click', runAsk);
+  askInput.addEventListener('keydown', function(e){ if (e.key === 'Enter') runAsk(); });
 
   // ---------------- wire it all up ----------------
   if (!D.inst_country){
