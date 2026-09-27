@@ -1,0 +1,883 @@
+<meta charset="utf-8">
+<title>Explore the data — social media bots literature review</title>
+<style>
+
+  :root{
+    --bg:#f5f3ee;
+    --surface:#ffffff;
+    --surface-2:#eeece4;
+    --ink:#20242b;
+    --ink-soft:#5b6169;
+    --ink-faint:#8a8f97;
+    --rule:#dbd6ca;
+    --accent:#2c6288;
+    --accent-ink:#173c53;
+    --accent-soft:#e6eef3;
+    --warn:#8a5a1f;
+    --warn-soft:#faeedb;
+    --dupe:#8a3b3b;
+    --dupe-soft:#f7e9e9;
+    --good:#1f7a4d;
+    --good-soft:#e9f7ee;
+    --shadow: 0 1px 2px rgba(30,26,14,.06), 0 6px 20px rgba(30,26,14,.05);
+    --chart-surface:#fcfcfb;
+    --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
+    --series-5:#e87ba4; --series-6:#008300; --series-7:#4a3aa7; --series-8:#e34948;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171b;
+      --surface:#1b1f24;
+      --surface-2:#20252b;
+      --ink:#e9e7e0;
+      --ink-soft:#a7adb6;
+      --ink-faint:#767c85;
+      --rule:#31363d;
+      --accent:#79aed2;
+      --accent-ink:#cfe6f4;
+      --accent-soft:#1f2c35;
+      --warn:#d6a15a;
+      --warn-soft:#2b2317;
+      --dupe:#d98b8b;
+      --dupe-soft:#2c1e1e;
+      --good:#3fbb7d;
+      --good-soft:#173325;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px rgba(0,0,0,.35);
+      --chart-surface:#1a1a19;
+      --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+      --series-5:#d55181; --series-6:#008300; --series-7:#9085e9; --series-8:#e66767;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171b;
+    --surface:#1b1f24;
+    --surface-2:#20252b;
+    --ink:#e9e7e0;
+    --ink-soft:#a7adb6;
+    --ink-faint:#767c85;
+    --rule:#31363d;
+    --accent:#79aed2;
+    --accent-ink:#cfe6f4;
+    --accent-soft:#1f2c35;
+    --warn:#d6a15a;
+    --warn-soft:#2b2317;
+    --dupe:#d98b8b;
+    --dupe-soft:#2c1e1e;
+    --good:#3fbb7d;
+    --good-soft:#173325;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px rgba(0,0,0,.35);
+    --chart-surface:#1a1a19;
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+    --series-5:#d55181; --series-6:#008300; --series-7:#9085e9; --series-8:#e66767;
+  }
+
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size:15.5px;
+    line-height:1.55;
+  }
+  .wrap{max-width:880px; margin:0 auto; padding:56px 24px 80px}
+
+  .eyebrow{
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:11.5px; letter-spacing:.11em; text-transform:uppercase;
+    color:var(--accent); font-weight:600; margin:0 0 10px;
+  }
+  h1{
+    font-family: "Iowan Old Style","Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    font-weight:600; font-size: clamp(28px, 4.4vw, 40px);
+    line-height:1.12; margin:0 0 14px; text-wrap:balance; color:var(--ink);
+  }
+  .dek{
+    color:var(--ink-soft); font-size:16.5px; max-width:62ch; margin:0 0 8px;
+  }
+  .dek b{color:var(--ink); font-weight:600}
+
+  .meta-line{
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size:12px; color:var(--ink-faint); margin:22px 0 0;
+    display:flex; gap:18px; flex-wrap:wrap;
+  }
+
+  section{margin-top:52px}
+  h2{
+    font-family: "Iowan Old Style","Palatino Linotype", Palatino, Georgia, serif;
+    font-weight:600; font-size:21px; margin:0 0 6px; color:var(--ink);
+  }
+  .section-note{color:var(--ink-soft); font-size:14px; max-width:66ch; margin:0 0 20px}
+
+  /* stat tiles */
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+  .stat{
+    background:var(--surface); border:1px solid var(--rule); border-radius:10px;
+    padding:16px 16px 14px; box-shadow:var(--shadow);
+  }
+  .stat .n{
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size:26px; font-weight:600; color:var(--ink); display:block; line-height:1.1;
+  }
+  .stat .n.dupe{color:var(--dupe)}
+  .stat .n.accent{color:var(--accent)}
+  .stat .lbl{font-size:12.5px; color:var(--ink-soft); margin-top:4px; display:block}
+  @media (max-width:640px){ .stats{grid-template-columns:repeat(2,1fr)} }
+
+  /* year sparkbars */
+  .yearbars{
+    display:flex; align-items:flex-end; gap:6px; height:96px; margin-top:22px;
+    padding:0 2px; border-bottom:1px solid var(--rule);
+  }
+  .bar{
+    flex:1; background:var(--accent-soft); border:1px solid var(--rule); border-bottom:none;
+    border-radius:3px 3px 0 0; position:relative; display:flex; flex-direction:column;
+    align-items:center; justify-content:flex-start; min-width:0;
+  }
+  .bar-val{
+    font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums;
+    font-size:10px; color:var(--ink-soft); margin-top:-16px; white-space:nowrap;
+  }
+  .bar-yr{
+    position:absolute; bottom:-18px; font-size:10px; color:var(--ink-faint);
+    font-family: ui-monospace, monospace;
+  }
+
+  /* prisma link */
+  .prisma-link{
+    display:inline-flex; align-items:center; gap:8px; margin-top:14px; padding:9px 16px;
+    border-radius:9px; border:1px solid var(--rule); background:var(--surface);
+    color:var(--ink); text-decoration:none; font-size:13.5px; box-shadow:var(--shadow);
+  }
+  .prisma-link:hover{border-color:var(--accent); color:var(--accent)}
+  .prisma-link svg{width:14px; height:14px; flex:none}
+
+  .callout{
+    background:var(--warn-soft); border:1px solid color-mix(in srgb, var(--warn) 35%, transparent);
+    border-radius:10px; padding:14px 18px; font-size:13.5px; color:var(--ink);
+    margin-top:18px;
+  }
+  .callout b{color:var(--warn)}
+
+  .query-list{
+    font-family: ui-monospace, monospace; font-size:12.5px; color:var(--ink-soft);
+    background:var(--surface-2); border-radius:8px; padding:10px 14px; margin-top:14px;
+  }
+
+  /* table controls */
+  .controls{
+    display:flex; gap:10px; align-items:center; margin-bottom:14px; flex-wrap:wrap;
+  }
+  .controls input[type="search"]{
+    flex:1; min-width:220px; padding:9px 12px; border-radius:8px;
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink); font-size:14px;
+  }
+  .controls select{
+    padding:9px 10px; border-radius:8px; border:1px solid var(--rule);
+    background:var(--surface); color:var(--ink); font-size:14px;
+  }
+  .controls input:focus, .controls select:focus, button:focus-visible{
+    outline:2px solid var(--accent); outline-offset:1px;
+  }
+  .count-line{font-size:12.5px; color:var(--ink-faint); margin-bottom:10px; font-family:ui-monospace,monospace}
+
+  .table-wrap{
+    border:1px solid var(--rule); border-radius:10px; overflow:auto; background:var(--surface);
+    box-shadow:var(--shadow); max-height:640px;
+  }
+  table{border-collapse:collapse; width:100%; font-size:13.5px}
+  thead th{
+    position:sticky; top:0; background:var(--surface-2); text-align:left; padding:9px 12px;
+    font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft);
+    border-bottom:1px solid var(--rule); font-weight:600; white-space:nowrap;
+  }
+  tbody td{padding:9px 12px; border-bottom:1px solid var(--rule); vertical-align:top}
+  tbody tr:hover{background:var(--surface-2)}
+  td.yr, th.yr{font-family:ui-monospace,monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+  td.cited{font-family:ui-monospace,monospace; font-variant-numeric:tabular-nums; text-align:right; color:var(--ink-soft)}
+  td.title a{color:var(--ink); text-decoration:none; border-bottom:1px solid var(--rule)}
+  td.title a:hover{color:var(--accent); border-color:var(--accent)}
+  td.venue{color:var(--ink-soft); max-width:220px}
+
+  .loadmore{
+    display:block; margin:14px auto 0; padding:9px 20px; border-radius:8px;
+    border:1px solid var(--rule); background:var(--surface); color:var(--ink);
+    font-size:13.5px; cursor:pointer;
+  }
+  .loadmore:hover{border-color:var(--accent); color:var(--accent)}
+
+  /* badges */
+  .badge{
+    display:inline-block; padding:2px 8px; border-radius:99px; font-size:11px;
+    background:var(--surface-2); color:var(--ink-soft); border:1px solid var(--rule);
+    margin:1px 3px 1px 0; white-space:nowrap;
+  }
+  .badge.inc{background:var(--good-soft); color:var(--good); border-color:transparent}
+  .badge.exc{background:var(--dupe-soft); color:var(--dupe); border-color:transparent}
+  .actor-platform{background:var(--accent-soft); color:var(--accent-ink); border-color:transparent}
+  .actor-government{background:var(--warn-soft); color:var(--warn); border-color:transparent}
+  .actor-civil_society{background:var(--good-soft); color:var(--good); border-color:transparent}
+
+  /* chart cards */
+  .chart-card{
+    background:var(--surface); border:1px solid var(--rule); border-radius:12px;
+    padding:18px 18px 14px; box-shadow:var(--shadow); margin-top:22px;
+  }
+  .chart-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:10px}
+  .chart-title{font-size:14px; font-weight:600; color:var(--ink)}
+  .chart-note{font-size:12px; color:var(--ink-faint)}
+  .table-toggle{
+    font-size:11.5px; background:none; border:1px solid var(--rule); color:var(--ink-soft);
+    border-radius:6px; padding:3px 9px; cursor:pointer; font-family:ui-monospace,monospace;
+  }
+  .table-toggle:hover{border-color:var(--accent); color:var(--accent)}
+  .chart-svg-wrap{overflow-x:auto}
+  .chart-svg-wrap svg{display:block; min-width:520px}
+  .legend{display:flex; flex-wrap:wrap; gap:6px 10px; margin-top:10px; font-size:11.5px; color:var(--ink-soft)}
+  .legend-item{
+    display:flex; align-items:center; gap:6px; background:none; border:1px solid transparent;
+    border-radius:6px; padding:2px 6px 2px 4px; cursor:pointer; font:inherit; color:inherit;
+  }
+  .legend-item:hover{border-color:var(--rule); background:var(--surface-2)}
+  .legend-swatch{width:10px; height:10px; border-radius:2px; flex:none}
+
+  /* mode toggle (absolute / percent) */
+  .mode-toggle{
+    display:inline-flex; border:1px solid var(--rule); border-radius:8px; overflow:hidden;
+    margin-bottom:4px;
+  }
+  .mode-toggle button{
+    font-size:12.5px; padding:6px 14px; border:none; background:var(--surface); color:var(--ink-soft);
+    cursor:pointer; font-family:inherit;
+  }
+  .mode-toggle button + button{border-left:1px solid var(--rule)}
+  .mode-toggle button.active{background:var(--accent); color:#fff}
+
+  /* active chart-driven filter chip */
+  .filter-chip{
+    display:inline-flex; align-items:center; gap:8px; background:var(--accent-soft);
+    color:var(--accent-ink); border-radius:99px; padding:5px 8px 5px 12px; font-size:12.5px;
+    margin-bottom:10px;
+  }
+  .filter-chip button{
+    background:var(--accent); color:#fff; border:none; border-radius:99px; width:18px; height:18px;
+    line-height:1; cursor:pointer; font-size:12px;
+  }
+  .chart-tooltip{
+    position:fixed; pointer-events:none; background:var(--ink); color:var(--bg);
+    font-size:11.5px; padding:6px 9px; border-radius:6px; z-index:50; max-width:260px;
+    line-height:1.4; box-shadow:0 4px 14px rgba(0,0,0,.25); opacity:0; transition:opacity .08s;
+  }
+  .data-table{width:100%; border-collapse:collapse; font-size:12px; margin-top:10px}
+  .data-table th, .data-table td{
+    padding:5px 8px; border-bottom:1px solid var(--rule); text-align:right;
+    font-family:ui-monospace,monospace; font-variant-numeric:tabular-nums; white-space:nowrap;
+  }
+  .data-table th:first-child, .data-table td:first-child{text-align:left; font-family:inherit}
+
+  .detail-row td{background:var(--surface-2); font-size:12.5px; color:var(--ink-soft)}
+  .detail-row .detail-block{margin:4px 0}
+  .detail-row .detail-label{font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); margin-right:6px}
+  tr.expandable{cursor:pointer}
+  tr.expandable td.title a{pointer-events:auto}
+  .expand-hint{color:var(--ink-faint); font-size:11px; margin-left:6px}
+
+  footer{
+    margin-top:56px; padding-top:20px; border-top:1px solid var(--rule);
+    font-size:12.5px; color:var(--ink-faint); display:flex; gap:18px; flex-wrap:wrap;
+  }
+  footer a{color:var(--accent); text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+
+  .heatmap{display:inline-block}
+  .heatmap .row{display:flex}
+  .heatmap .cell{
+    width:26px; height:26px; display:flex; align-items:center; justify-content:center;
+    font-size:9px; font-family:ui-monospace,monospace; color:var(--ink); border:1px solid var(--bg);
+    cursor:default;
+  }
+  .heatmap .rowlabel{
+    width:230px; flex:none; font-size:11px; color:var(--ink-soft); display:flex; align-items:center;
+    justify-content:flex-end; padding-right:8px; text-align:right;
+  }
+  .heatmap .collabels{display:flex; margin-left:230px}
+  .heatmap .collabel{
+    width:26px; flex:none; font-size:9px; color:var(--ink-faint); writing-mode:vertical-rl;
+    text-orientation:mixed; height:110px; display:flex; align-items:flex-end; padding-bottom:4px;
+  }
+  .net-node{cursor:pointer}
+  .net-node.seed{stroke:var(--ink); stroke-width:1.5}
+  .net-edge{stroke:var(--rule); stroke-width:1; fill:none}
+  .net-edge.seed-seed{stroke:var(--accent); stroke-width:2}
+  .map-land{fill:var(--surface-2); stroke:var(--rule); stroke-width:0.5}
+  .map-graticule{stroke:var(--rule); stroke-width:0.5; fill:none; opacity:0.5}
+  .map-bubble{fill:var(--accent); fill-opacity:0.55; stroke:var(--accent-ink); stroke-width:0.75; cursor:pointer}
+  .map-bubble:hover{fill-opacity:0.85}
+  .obs{
+    font-size:13.5px; color:var(--ink); background:var(--accent-soft); border-left:3px solid var(--accent);
+    padding:8px 12px; border-radius:0 6px 6px 0; margin:0 0 20px; max-width:70ch;
+  }
+  .obs b{color:var(--accent-ink)}
+
+</style>
+<div class="wrap">
+  <p class="eyebrow">Literature scan &amp; annotation</p>
+  <h1>Explore the data</h1>
+  <p class="dek">Analyses beyond the main browse table, over the combined keyword-search + forward/backward-snowball corpus (17,050 records, 3,864 included). <a href="../index.html">&larr; back to the main review</a></p>
+
+  <section>
+    <h2>Seed-centered citation network</h2>
+    <p class="section-note">The 7 seed papers (large diamonds), each shown with its top 18 highest-cited backward references and forward citing papers (colored by which seed they came from; a paper connected to two seeds shows only its first-found link here). Solid seed-to-seed lines mean one seed cites another directly. Hover a node for its title; node size scales with citation count.</p>
+    <p class="obs"><b>Observation:</b> 28 direct citation links exist among the 7 seeds themselves, and the single highest-cited neighbor pulled in by any seed is <b>&ldquo;The spread of true and false news online&rdquo;</b> (8,836 citations).</p>
+    <div class="chart-card">
+      <div class="chart-svg-wrap" id="network-wrap" style="overflow:auto; max-height:640px"></div>
+      <div class="legend" id="legend-network"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Seed-pair bibliographic coupling &amp; co-citation</h2>
+    <p class="section-note">Bibliographic coupling: how many references two seeds share (a proxy for topical closeness). Co-citation: how many later papers cite both seeds together. Darker = more overlap.</p>
+    <p class="obs"><b>Observation:</b> The two seeds with the most in common are <b>&ldquo;Botometer 101: social bot practicum for computatio&rdquo;</b> and <b>&ldquo;A global comparison of social media bot and human &rdquo;</b>, sharing 12 references (bibliographic coupling) &mdash; more than any other seed pair.</p>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Shared references (bibliographic coupling)</span></div>
+      <div id="heatmap-coupling"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Shared citing papers (co-citation)</span></div>
+      <div id="heatmap-cocitation"></div>
+    </div>
+  </section>
+
+  <section id="inst-country-section">
+    <h2>Who publishes this: institutions &amp; countries</h2>
+    <p class="section-note">Author affiliations for included papers only (excluded papers aren't attributed to institutions). "Publications" counts a paper once per institution/country that appears on it (a paper with two US co-authors from different schools counts once for the US, once for each school). "Citations" sums each paper's OpenAlex cited-by count into every institution/country on it -- a proxy for whose work in this space gets picked up, not a per-institution citation count in the strict bibliometric sense.</p>
+    <p class="obs"><b>Observation:</b> Institution/country data hasn't been fetched yet (pending an OpenAlex batch fetch that keeps hitting rate limits) &mdash; this section will populate once that clears.</p>
+    <div class="mode-toggle" role="group" aria-label="Metric">
+      <button id="metric-pubs" class="active" data-metric="pubs">Publications</button>
+      <button id="metric-cites" data-metric="cites">Citations</button>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <span class="chart-title">Top institutions</span>
+      </div>
+      <div class="chart-svg-wrap" id="chart-institutions"></div>
+      <table class="data-table" id="tbl-institutions" style="text-align:left; margin-top:14px"></table>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <span class="chart-title">Top countries</span>
+        <div class="mode-toggle" role="group" aria-label="Country view">
+          <button id="country-view-bar" class="active" data-view="bar">Bar chart</button>
+          <button id="country-view-map" data-view="map">Map</button>
+        </div>
+      </div>
+      <div class="chart-svg-wrap" id="chart-countries"></div>
+      <div id="map-countries" hidden></div>
+      <table class="data-table" id="tbl-countries" style="text-align:left; margin-top:14px"></table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where this literature is published</h2>
+    <p class="section-note">Top 20 venues by record count, across the full combined corpus (included + excluded).</p>
+    <p class="obs"><b>Observation:</b> <b>arXiv (Cornell University)</b> is the single most common venue, with 381 records &mdash; among 20 distinct venues shown here alone.</p>
+    <div class="chart-card">
+      <div class="chart-svg-wrap" id="chart-venues"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Citation counts</h2>
+    <p class="section-note">Distribution of OpenAlex cited-by counts across all 17,050 records, and the 20 most-cited papers in the corpus.</p>
+    <p class="obs"><b>Observation:</b> The single most-cited RECORD overall is <b>&ldquo;Deep Residual Learning for Image Recognition&rdquo;</b> (229,732 citations) &mdash; excluded at screening (not actually about social media bots); among INCLUDED papers, the most-cited is <b>&ldquo;Comparing Physician and Artificial Intelligence Chatbot Responses to P…&rdquo;</b> (2,611 citations, 2023).</p>
+    <div class="chart-card">
+      <div class="chart-svg-wrap" id="chart-citdist"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Top 20 most-cited papers</span></div>
+      <table class="data-table" id="tbl-topcited" style="text-align:left"></table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Citation velocity</h2>
+    <p class="section-note">Citations per year since publication (cited-by count &divide; years since publication), not raw cited-by count -- so a 2018 paper with 200 citations and a 2024 paper with 50 aren't compared unfairly. Each dot is one included paper; hover for its title. The line is the average velocity per publication year.</p>
+    <p class="obs"><b>Observation:</b> Average citation velocity has fallen from 9.71/yr in 2016 to 0.57/yr in 2026; the fastest-accumulating paper is <b>&ldquo;Comparing Physician and Artificial Intelligence Chatbot Responses to P…&rdquo;</b> at 652.75 citations/year.</p>
+    <div class="chart-card">
+      <div class="chart-svg-wrap" id="chart-velocity"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Top 20 by citation velocity</span></div>
+      <table class="data-table" id="tbl-velocity" style="text-align:left"></table>
+    </div>
+  </section>
+
+  <section id="core-graph-section">
+    <h2>Core citation graph</h2>
+    <p class="section-note">Edges BETWEEN included papers only -- who in this literature cites whom -- as opposed to the seed-centered network above (which only shows the 7 seeds' immediate neighbors). Shows the 0 most internally-cited papers (out of 0 internal citation edges total among all included papers); node size and ring position scale with in-degree (how many other included papers cite it). Hover for title.</p>
+    <p class="obs"><b>Observation:</b> This section needs the same pending OpenAlex fetch as institutions/countries above (it reads each paper's reference list) &mdash; not yet available.</p>
+    <div class="chart-card">
+      <div class="chart-svg-wrap" id="core-graph-wrap" style="overflow:auto; max-height:640px"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Most internally-cited papers</span></div>
+      <table class="data-table" id="tbl-core" style="text-align:left"></table>
+    </div>
+  </section>
+
+  <section id="topic-drift-section">
+    <h2>Topic drift (title keywords, by year)</h2>
+    <p class="section-note">Top keyword/phrase frequency extracted from included papers' TITLES only (abstracts aren't kept in the published dataset), by publication year -- a local, fully computed-from-title-text proxy for topic drift, not OpenAlex's own topic classification. Common English stopwords and corpus-constant terms ("social", "media", "bot(s)", "detection", etc.) are filtered out so the terms that DO show up are the ones that distinguish one year from another.</p>
+    <p class="obs"><b>Observation:</b> &ldquo;<b>chatbot</b>&rdquo; shows the largest rise of any tracked title-keyword, from 3 mentions in 2016 to 84 in 2026.</p>
+    <div class="chart-card">
+      <div class="chart-svg-wrap" id="chart-topics"></div>
+      <div class="legend" id="legend-topics"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Bot-persona co-occurrence</h2>
+    <p class="section-note">Among included papers, how often each pair of the 10 most-common bot personas is tagged on the SAME paper (diagonal = total papers with that persona).</p>
+    <p class="obs"><b>Observation:</b> <b>Unclassified</b> is the most-tagged bot persona overall (1530 papers), and <b>Unclassified</b> + <b>Conversational Bot</b> co-occur on the same paper more than any other pair (107 papers).</p>
+    <div class="chart-card">
+      <div id="heatmap-persona"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Governance actor &times; typology</h2>
+    <p class="section-note">Among included papers, which governance actor (platform / government / civil society) each governance-typology idea is addressed to.</p>
+    <p class="obs"><b>Observation:</b> The most common governance pairing is <b>government</b> actors addressed via <b>Legal &amp; Regulatory Frameworks</b> (176 papers).</p>
+    <div class="chart-card">
+      <div id="heatmap-actor-typ"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Search vs. snowball, over time</h2>
+    <p class="section-note">How much of each publication year's records came from the keyword-search stream vs. the forward/backward citation snowball. Snowball papers skew slightly older on average, since they're reachable by citation from mostly-older seed papers.</p>
+    <p class="obs"><b>Observation:</b> The forward/backward snowball's share of each year's records has shrunk from 89% in 2016 to 74% in 2026.</p>
+    <div class="chart-card">
+      <div class="chart-svg-wrap" id="chart-source"></div>
+      <div class="legend" id="legend-source"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Network layout: a small pure-Python force-directed placement (seeds anchored, neighbors free), not an interactive force simulation. Regenerate via <code>forward_backward_review/scripts/build_explore_page.py</code>.</span>
+  </footer>
+</div>
+<div class="chart-tooltip" id="tooltip"></div>
+<script src="explore_data.js"></script>
+<script>
+(function(){
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var root = document.documentElement;
+  function seriesColor(i){ return getComputedStyle(root).getPropertyValue('--series-' + (i+1)).trim(); }
+  var tooltip = document.getElementById('tooltip');
+  function showTip(evt, html){
+    tooltip.innerHTML = html; tooltip.style.opacity = '1';
+    var x = evt.clientX, y = evt.clientY;
+    tooltip.style.left = Math.min(x + 14, window.innerWidth - 270) + 'px';
+    tooltip.style.top = (y + 14) + 'px';
+  }
+  function hideTip(){ tooltip.style.opacity = '0'; }
+  var D = window.EXPLORE;
+
+  // ---------------- simple vertical bar chart (single series) ----------------
+  function barChart(containerId, labels, values, opts){
+    opts = opts || {};
+    var container = document.getElementById(containerId);
+    var W = Math.max(560, labels.length * (opts.barGap || 46) + 60);
+    var H = opts.height || 260, padL = 40, padB = opts.rotateLabels ? 90 : 26, padT = 8;
+    var plotW = W - padL - 12, plotH = H - padT - padB;
+    var maxV = Math.max.apply(null, values.concat([1]));
+    var barW = plotW / labels.length;
+    var gap = Math.min(14, barW * 0.25);
+    var parts = ['<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'">'];
+    var ticks = 4;
+    for (var t=0;t<=ticks;t++){
+      var yy = padT + plotH - (plotH*t/ticks);
+      parts.push('<line x1="'+padL+'" y1="'+yy.toFixed(1)+'" x2="'+(W-8)+'" y2="'+yy.toFixed(1)+'" stroke="var(--rule)" stroke-width="1"/>');
+      parts.push('<text x="'+(padL-6)+'" y="'+(yy+3).toFixed(1)+'" font-size="9.5" text-anchor="end" fill="var(--ink-faint)" font-family="ui-monospace,monospace">'+Math.round(maxV*t/ticks)+'</text>');
+    }
+    labels.forEach(function(lab, i){
+      var v = values[i];
+      var h = (v/maxV)*plotH;
+      var x0 = padL + i*barW + gap/2, w = barW - gap;
+      var yTop = padT + plotH - h;
+      parts.push('<rect class="seg" tabindex="0" data-label="'+esc(lab)+'" data-val="'+v+'" x="'+x0.toFixed(1)+'" y="'+yTop.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+Math.max(h-1,0).toFixed(1)+'" fill="'+seriesColor(0)+'" rx="2" style="cursor:pointer"/>');
+      if (opts.rotateLabels){
+        parts.push('<text x="'+(x0+w/2).toFixed(1)+'" y="'+(H-padB+8)+'" font-size="9.5" fill="var(--ink-faint)" font-family="ui-monospace,monospace" transform="rotate(45 '+(x0+w/2).toFixed(1)+' '+(H-padB+8)+')" text-anchor="start">'+esc(lab.length>28?lab.slice(0,26)+'…':lab)+'</text>');
+      } else {
+        parts.push('<text x="'+(x0+w/2).toFixed(1)+'" y="'+(H-8)+'" font-size="10" text-anchor="middle" fill="var(--ink-faint)" font-family="ui-monospace,monospace">'+esc(lab)+'</text>');
+      }
+    });
+    parts.push('</svg>');
+    container.innerHTML = parts.join('');
+    container.querySelectorAll('.seg').forEach(function(seg){
+      seg.addEventListener('mousemove', function(e){ showTip(e, '<b>'+esc(seg.getAttribute('data-label'))+'</b><br>'+seg.getAttribute('data-val')+' records'); });
+      seg.addEventListener('mouseleave', hideTip);
+    });
+  }
+
+  // ---------------- stacked bar (2 series: search vs snowball) ----------------
+  function stackedBar(containerId, legendId, years, series, matrix){
+    var container = document.getElementById(containerId);
+    var W = Math.max(560, years.length*54+40), H=220, padL=34, padB=22, padT=6;
+    var plotW = W-padL-10, plotH = H-padT-padB;
+    var totals = matrix.map(function(row){ return row.reduce(function(a,b){return a+b;},0); });
+    var maxTotal = Math.max.apply(null, totals.concat([1]));
+    var barW = plotW/years.length, gap = Math.min(10, barW*0.22);
+    var parts = ['<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'">'];
+    for (var t=0;t<=4;t++){
+      var yy = padT+plotH-(plotH*t/4);
+      parts.push('<line x1="'+padL+'" y1="'+yy.toFixed(1)+'" x2="'+(W-10)+'" y2="'+yy.toFixed(1)+'" stroke="var(--rule)" stroke-width="1"/>');
+      parts.push('<text x="'+(padL-6)+'" y="'+(yy+3).toFixed(1)+'" font-size="9.5" text-anchor="end" fill="var(--ink-faint)" font-family="ui-monospace,monospace">'+Math.round(maxTotal*t/4)+'</text>');
+    }
+    years.forEach(function(y, yi){
+      var x0 = padL+yi*barW+gap/2, w = barW-gap, yOffset=0;
+      matrix[yi].forEach(function(v, si){
+        if (v<=0) return;
+        var segH = (v/maxTotal)*plotH;
+        var yTop = padT+plotH-yOffset-segH;
+        parts.push('<rect class="seg2" data-year="'+y+'" data-series="'+si+'" data-val="'+v+'" x="'+x0.toFixed(1)+'" y="'+yTop.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+Math.max(segH-1.5,0).toFixed(1)+'" fill="'+seriesColor(si)+'" rx="1.5"/>');
+        yOffset += segH;
+      });
+      parts.push('<text x="'+(x0+w/2).toFixed(1)+'" y="'+(H-6)+'" font-size="10" text-anchor="middle" fill="var(--ink-faint)" font-family="ui-monospace,monospace">'+y+'</text>');
+    });
+    parts.push('</svg>');
+    container.innerHTML = parts.join('');
+    var legend = document.getElementById(legendId);
+    legend.innerHTML = series.map(function(name, si){
+      return '<span class="legend-item"><span class="legend-swatch" style="background:'+seriesColor(si)+'"></span>'+esc(name)+'</span>';
+    }).join('');
+    container.querySelectorAll('.seg2').forEach(function(seg){
+      seg.addEventListener('mousemove', function(e){
+        var si = +seg.getAttribute('data-series');
+        showTip(e, '<b>'+esc(series[si])+'</b><br>'+seg.getAttribute('data-year')+': '+seg.getAttribute('data-val')+' papers');
+      });
+      seg.addEventListener('mouseleave', hideTip);
+    });
+  }
+
+  // ---------------- heatmap ----------------
+  function heatmap(containerId, rowLabels, colLabels, matrix, opts){
+    opts = opts || {};
+    var container = document.getElementById(containerId);
+    var flat = matrix.reduce(function(a,row){return a.concat(row);},[]);
+    var maxV = Math.max.apply(null, flat.concat([1]));
+    var html = '<div class="heatmap">';
+    html += '<div class="collabels">' + colLabels.map(function(c){ return '<div class="collabel">'+esc(c.length>34?c.slice(0,32)+'…':c)+'</div>'; }).join('') + '</div>';
+    rowLabels.forEach(function(r, ri){
+      html += '<div class="row"><div class="rowlabel">'+esc(r.length>40?r.slice(0,38)+'…':r)+'</div>';
+      matrix[ri].forEach(function(v, ci){
+        var alpha = v===0 ? 0 : 0.15 + 0.75*(v/maxV);
+        var bg = v===0 ? 'transparent' : 'color-mix(in srgb, var(--accent) ' + Math.round(alpha*100) + '%, var(--surface))';
+        html += '<div class="cell" data-row="'+esc(r)+'" data-col="'+esc(colLabels[ci])+'" data-val="'+v+'" style="background:'+bg+'">'+(v>0?v:'')+'</div>';
+      });
+      html += '</div>';
+    });
+    html += '</div>';
+    container.innerHTML = html;
+    container.querySelectorAll('.cell').forEach(function(cell){
+      cell.addEventListener('mousemove', function(e){
+        showTip(e, '<b>'+esc(cell.getAttribute('data-row'))+'</b><br>&times; '+esc(cell.getAttribute('data-col'))+'<br>'+cell.getAttribute('data-val'));
+      });
+      cell.addEventListener('mouseleave', hideTip);
+    });
+  }
+
+  // ---------------- citation network ----------------
+  function drawNetwork(){
+    var net = D.network;
+    var xs = net.nodes.map(function(n){return n.x;}), ys = net.nodes.map(function(n){return n.y;});
+    var minX = Math.min.apply(null, xs)-60, maxX = Math.max.apply(null, xs)+60;
+    var minY = Math.min.apply(null, ys)-60, maxY = Math.max.apply(null, ys)+60;
+    var W = maxX-minX, H = maxY-minY;
+    var container = document.getElementById('network-wrap');
+    var parts = ['<svg viewBox="'+minX+' '+minY+' '+W+' '+H+'" width="'+Math.max(900,W)+'" height="'+Math.max(700,H*(Math.max(900,W)/W))+'">'];
+    net.edges.forEach(function(e){
+      var a = net.nodes[e.a], b = net.nodes[e.b];
+      parts.push('<line class="net-edge'+(e.kind==='seed-seed'?' seed-seed':'')+'" x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'"/>');
+    });
+    net.nodes.forEach(function(n, i){
+      var r = n.seed ? 12 : Math.max(3, Math.min(11, 3 + Math.sqrt(n.cited||0)));
+      var color = seriesColor(n.group % 8);
+      if (n.seed){
+        var s = r;
+        parts.push('<rect class="net-node seed" data-i="'+i+'" x="'+(n.x-s)+'" y="'+(n.y-s)+'" width="'+(2*s)+'" height="'+(2*s)+'" transform="rotate(45 '+n.x+' '+n.y+')" fill="'+color+'"/>');
+      } else {
+        parts.push('<circle class="net-node" data-i="'+i+'" cx="'+n.x+'" cy="'+n.y+'" r="'+r+'" fill="'+color+'" fill-opacity="0.85"/>');
+      }
+    });
+    parts.push('</svg>');
+    container.innerHTML = parts.join('');
+    container.querySelectorAll('.net-node').forEach(function(el){
+      el.addEventListener('mousemove', function(e){
+        var n = net.nodes[+el.getAttribute('data-i')];
+        showTip(e, '<b>'+esc(n.title)+'</b><br>'+(n.year||'—')+' &middot; '+n.cited+' citations'+(n.seed?' <br><i>(seed paper)</i>':''));
+      });
+      el.addEventListener('mouseleave', hideTip);
+    });
+    var legend = document.getElementById('legend-network');
+    var seedNodes = net.nodes.filter(function(n){return n.seed;});
+    legend.innerHTML = seedNodes.map(function(n){
+      return '<span class="legend-item"><span class="legend-swatch" style="background:'+seriesColor(n.group%8)+'"></span>'+esc(n.title.length>50?n.title.slice(0,48)+'…':n.title)+'</span>';
+    }).join('');
+  }
+
+  // ---------------- institutions & countries ----------------
+  var geoMetric = 'pubs'; // 'pubs' | 'cites'
+  var countryView = 'bar'; // 'bar' | 'map'
+
+  function metricLabel(){ return geoMetric === 'pubs' ? 'Publications' : 'Citations'; }
+  function metricVal(x){ return geoMetric === 'pubs' ? x.pubs : x.citations; }
+
+  function renderInstTable(){
+    var IC = D.inst_country;
+    if (!IC) return;
+    var sorted = IC.institutions.slice().sort(function(a,b){ return metricVal(b)-metricVal(a); });
+    barChart('chart-institutions',
+      sorted.slice(0,15).map(function(x){ return x.name; }),
+      sorted.slice(0,15).map(metricVal),
+      {rotateLabels:true, height:300});
+    var tbl = document.getElementById('tbl-institutions');
+    tbl.innerHTML = '<thead><tr><th>Institution</th><th>Country</th><th style="text-align:right">Publications</th><th style="text-align:right">Citations</th></tr></thead><tbody>' +
+      sorted.map(function(x){
+        var cname = (COUNTRY_NAMES[x.country] || x.country || '—');
+        return '<tr><td>'+esc(x.name)+'</td><td>'+esc(cname)+'</td><td style="text-align:right">'+x.pubs.toLocaleString()+'</td><td style="text-align:right">'+x.citations.toLocaleString()+'</td></tr>';
+      }).join('') + '</tbody>';
+  }
+
+  var COUNTRY_NAMES = {};
+  if (D.inst_country){
+    D.inst_country.countries.forEach(function(c){ COUNTRY_NAMES[c.code] = c.name; });
+  }
+
+  function renderCountryTable(){
+    var IC = D.inst_country;
+    if (!IC) return;
+    var sorted = IC.countries.slice().sort(function(a,b){ return metricVal(b)-metricVal(a); });
+    var tbl = document.getElementById('tbl-countries');
+    tbl.innerHTML = '<thead><tr><th>Country</th><th style="text-align:right">Publications</th><th style="text-align:right">Citations</th></tr></thead><tbody>' +
+      sorted.slice(0,40).map(function(x){
+        return '<tr><td>'+esc(x.name)+'</td><td style="text-align:right">'+x.pubs.toLocaleString()+'</td><td style="text-align:right">'+x.citations.toLocaleString()+'</td></tr>';
+      }).join('') + '</tbody>';
+    if (countryView === 'bar'){
+      barChart('chart-countries',
+        sorted.slice(0,20).map(function(x){ return x.name; }),
+        sorted.slice(0,20).map(metricVal),
+        {rotateLabels:true, height:300});
+    } else {
+      renderCountryMap(sorted);
+    }
+  }
+
+  function renderCountryMap(sorted){
+    var IC = D.inst_country;
+    var W = 900, H = 460;
+    var withGeo = IC.countries.filter(function(c){ return c.lon != null; });
+    var maxV = Math.max.apply(null, withGeo.map(metricVal).concat([1]));
+    function project(lon, lat){
+      return [ (lon+180)/360*W, (90-lat)/180*H ];
+    }
+    var parts = ['<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'">'];
+    parts.push('<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="var(--chart-surface)" stroke="var(--rule)"/>');
+    for (var lon=-180; lon<=180; lon+=30){
+      var x = project(lon,0)[0];
+      parts.push('<line class="map-graticule" x1="'+x+'" y1="0" x2="'+x+'" y2="'+H+'"/>');
+    }
+    for (var lat=-60; lat<=90; lat+=30){
+      var y = project(0,lat)[1];
+      parts.push('<line class="map-graticule" x1="0" y1="'+y+'" x2="'+W+'" y2="'+y+'"/>');
+    }
+    withGeo.forEach(function(c){
+      var p = project(c.lon, c.lat);
+      var v = metricVal(c);
+      var r = Math.max(3, Math.sqrt(v/maxV)*42);
+      parts.push('<circle class="map-bubble" data-name="'+esc(c.name)+'" data-val="'+v+'" cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="'+r.toFixed(1)+'"/>');
+    });
+    parts.push('</svg>');
+    var mapEl = document.getElementById('map-countries');
+    mapEl.innerHTML = parts.join('');
+    mapEl.querySelectorAll('.map-bubble').forEach(function(b){
+      b.addEventListener('mousemove', function(e){
+        showTip(e, '<b>'+esc(b.getAttribute('data-name'))+'</b><br>'+metricLabel()+': '+(+b.getAttribute('data-val')).toLocaleString());
+      });
+      b.addEventListener('mouseleave', hideTip);
+    });
+  }
+
+  function renderGeo(){
+    if (!D.inst_country) return;
+    renderInstTable();
+    renderCountryTable();
+  }
+
+  document.getElementById('metric-pubs') && document.getElementById('metric-pubs').addEventListener('click', function(){
+    geoMetric = 'pubs';
+    document.getElementById('metric-pubs').classList.add('active');
+    document.getElementById('metric-cites').classList.remove('active');
+    renderGeo();
+  });
+  document.getElementById('metric-cites') && document.getElementById('metric-cites').addEventListener('click', function(){
+    geoMetric = 'cites';
+    document.getElementById('metric-cites').classList.add('active');
+    document.getElementById('metric-pubs').classList.remove('active');
+    renderGeo();
+  });
+  document.getElementById('country-view-bar') && document.getElementById('country-view-bar').addEventListener('click', function(){
+    countryView = 'bar';
+    document.getElementById('country-view-bar').classList.add('active');
+    document.getElementById('country-view-map').classList.remove('active');
+    document.getElementById('chart-countries').hidden = false;
+    document.getElementById('map-countries').hidden = true;
+    renderCountryTable();
+  });
+  document.getElementById('country-view-map') && document.getElementById('country-view-map').addEventListener('click', function(){
+    countryView = 'map';
+    document.getElementById('country-view-map').classList.add('active');
+    document.getElementById('country-view-bar').classList.remove('active');
+    document.getElementById('chart-countries').hidden = true;
+    document.getElementById('map-countries').hidden = false;
+    renderCountryTable();
+  });
+
+  // ---------------- citation velocity scatter ----------------
+  function drawVelocityScatter(){
+    var CV = D.citation_velocity;
+    if (!CV || !CV.scatter.length) return;
+    var years = CV.scatter.map(function(p){return p.y;});
+    var minY = Math.min.apply(null, years), maxY = Math.max.apply(null, years);
+    var maxV = Math.max.apply(null, CV.scatter.map(function(p){return p.v;}).concat([1]));
+    var W = 760, H = 320, padL = 46, padB = 30, padT = 10, padR = 10;
+    var plotW = W-padL-padR, plotH = H-padT-padB;
+    var yrSpan = Math.max(1, maxY-minY);
+    function xOf(y){ return padL + (y-minY)/yrSpan*plotW; }
+    function yOf(v){ return padT + plotH - Math.min(v,maxV)/maxV*plotH; }
+    var parts = ['<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'">'];
+    var ticks = 4;
+    for (var t=0;t<=ticks;t++){
+      var yy = padT+plotH-(plotH*t/ticks);
+      parts.push('<line x1="'+padL+'" y1="'+yy.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+yy.toFixed(1)+'" stroke="var(--rule)" stroke-width="1"/>');
+      parts.push('<text x="'+(padL-6)+'" y="'+(yy+3).toFixed(1)+'" font-size="9.5" text-anchor="end" fill="var(--ink-faint)" font-family="ui-monospace,monospace">'+(maxV*t/ticks).toFixed(1)+'</text>');
+    }
+    for (var y=minY; y<=maxY; y++){
+      parts.push('<text x="'+xOf(y).toFixed(1)+'" y="'+(H-8)+'" font-size="9.5" text-anchor="middle" fill="var(--ink-faint)" font-family="ui-monospace,monospace">'+y+'</text>');
+    }
+    CV.scatter.forEach(function(p){
+      parts.push('<circle class="vel-pt" data-t="'+esc(p.t)+'" data-y="'+p.y+'" data-v="'+p.v+'" data-c="'+p.c+'" cx="'+xOf(p.y).toFixed(1)+'" cy="'+yOf(p.v).toFixed(1)+'" r="2.6" fill="var(--accent)" fill-opacity="0.35"/>');
+    });
+    if (CV.avg_by_year.length){
+      var linePts = CV.avg_by_year.map(function(a){ return xOf(a.year).toFixed(1)+','+yOf(a.avg_velocity).toFixed(1); }).join(' ');
+      parts.push('<polyline points="'+linePts+'" fill="none" stroke="var(--series-2)" stroke-width="2"/>');
+      CV.avg_by_year.forEach(function(a){
+        parts.push('<circle data-avg="1" data-year="'+a.year+'" data-avg-v="'+a.avg_velocity+'" data-n="'+a.n+'" cx="'+xOf(a.year).toFixed(1)+'" cy="'+yOf(a.avg_velocity).toFixed(1)+'" r="4" fill="var(--series-2)"/>');
+      });
+    }
+    parts.push('</svg>');
+    var container = document.getElementById('chart-velocity');
+    container.innerHTML = parts.join('');
+    container.querySelectorAll('.vel-pt').forEach(function(el){
+      el.addEventListener('mousemove', function(e){
+        showTip(e, '<b>'+esc(el.getAttribute('data-t'))+'</b><br>'+el.getAttribute('data-y')+' &middot; '+el.getAttribute('data-v')+' cites/yr ('+el.getAttribute('data-c')+' total)');
+      });
+      el.addEventListener('mouseleave', hideTip);
+    });
+    container.querySelectorAll('[data-avg]').forEach(function(el){
+      el.addEventListener('mousemove', function(e){
+        showTip(e, '<b>'+el.getAttribute('data-year')+' average</b><br>'+el.getAttribute('data-avg-v')+' cites/yr (n='+el.getAttribute('data-n')+')');
+      });
+      el.addEventListener('mouseleave', hideTip);
+    });
+
+    var tbl = document.getElementById('tbl-velocity');
+    tbl.innerHTML = '<thead><tr><th>Year</th><th>Title</th><th style="text-align:right">Cites/yr</th><th style="text-align:right">Total cites</th></tr></thead><tbody>' +
+      CV.top_velocity.map(function(p){
+        var link = p.d ? ('https://doi.org/'+p.d) : ('https://openalex.org/'+p.id);
+        return '<tr><td>'+p.y+'</td><td><a href="'+esc(link)+'" target="_blank" rel="noopener" style="color:var(--ink)">'+esc(p.t)+'</a></td><td style="text-align:right">'+p.velocity+'</td><td style="text-align:right">'+p.c.toLocaleString()+'</td></tr>';
+      }).join('') + '</tbody>';
+  }
+
+  // ---------------- core citation graph (included papers only) ----------------
+  function drawCoreGraph(){
+    var CG = D.core_graph;
+    var sec = document.getElementById('core-graph-section');
+    if (!CG || !CG.nodes.length){ if (sec) sec.hidden = true; return; }
+    var xs = CG.nodes.map(function(n){return n.x;}), ys = CG.nodes.map(function(n){return n.y;});
+    var minX = Math.min.apply(null,xs)-30, maxX = Math.max.apply(null,xs)+30;
+    var minY = Math.min.apply(null,ys)-30, maxY = Math.max.apply(null,ys)+30;
+    var W = maxX-minX, H = maxY-minY;
+    var maxDeg = Math.max.apply(null, CG.nodes.map(function(n){return n.in_degree;}).concat([1]));
+    var parts = ['<svg viewBox="'+minX+' '+minY+' '+W+' '+H+'" width="'+Math.max(800,W)+'" height="'+Math.max(600,H*(Math.max(800,W)/W))+'">'];
+    CG.edges.forEach(function(e){
+      var a = CG.nodes[e.a], b = CG.nodes[e.b];
+      parts.push('<line class="net-edge" x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'"/>');
+    });
+    CG.nodes.forEach(function(n, i){
+      var r = Math.max(2.5, Math.sqrt(n.in_degree/maxDeg)*14);
+      var color = n.in_degree >= maxDeg*0.5 ? seriesColor(1) : seriesColor(0);
+      parts.push('<circle class="net-node" data-i="'+i+'" cx="'+n.x+'" cy="'+n.y+'" r="'+r.toFixed(1)+'" fill="'+color+'" fill-opacity="0.85"/>');
+    });
+    parts.push('</svg>');
+    var container = document.getElementById('core-graph-wrap');
+    container.innerHTML = parts.join('');
+    container.querySelectorAll('.net-node').forEach(function(el){
+      el.addEventListener('mousemove', function(e){
+        var n = CG.nodes[+el.getAttribute('data-i')];
+        showTip(e, '<b>'+esc(n.title)+'</b><br>'+(n.year||'—')+' &middot; cited by '+n.in_degree+' other included papers');
+      });
+      el.addEventListener('mouseleave', hideTip);
+    });
+
+    var tbl = document.getElementById('tbl-core');
+    tbl.innerHTML = '<thead><tr><th>Year</th><th>Title</th><th style="text-align:right">Cited by (in corpus)</th></tr></thead><tbody>' +
+      CG.top_by_indegree.map(function(p){
+        return '<tr><td>'+(p.year||'—')+'</td><td>'+esc(p.title)+'</td><td style="text-align:right">'+p.in_degree+'</td></tr>';
+      }).join('') + '</tbody>';
+  }
+
+  // ---------------- topic drift (title keywords) ----------------
+  function drawTopicDrift(){
+    var TD = D.topic_drift;
+    var sec = document.getElementById('topic-drift-section');
+    if (!TD || !TD.terms.length){ if (sec) sec.hidden = true; return; }
+    stackedBar('chart-topics', 'legend-topics', TD.years, TD.terms, TD.matrix);
+  }
+
+  // ---------------- wire it all up ----------------
+  if (!D.inst_country){
+    var sec = document.getElementById('inst-country-section');
+    if (sec) sec.hidden = true;
+  } else {
+    renderGeo();
+  }
+  drawNetwork();
+  heatmap('heatmap-coupling', D.seed_pairs.labels, D.seed_pairs.labels, D.seed_pairs.coupling);
+  heatmap('heatmap-cocitation', D.seed_pairs.labels, D.seed_pairs.labels, D.seed_pairs.cocitation);
+  barChart('chart-venues', D.venues.map(function(v){return v.venue;}), D.venues.map(function(v){return v.n;}), {rotateLabels:true, height:280});
+  barChart('chart-citdist', D.citation_dist.labels, D.citation_dist.counts, {height:240});
+  heatmap('heatmap-persona', D.persona_cooc.labels, D.persona_cooc.labels, D.persona_cooc.matrix);
+  heatmap('heatmap-actor-typ', D.actor_typ.actors, D.actor_typ.typologies, D.actor_typ.matrix);
+  stackedBar('chart-source', 'legend-source', D.source_by_year.years, D.source_by_year.series, D.source_by_year.matrix);
+  drawVelocityScatter();
+  drawCoreGraph();
+  drawTopicDrift();
+
+  var tbl = document.getElementById('tbl-topcited');
+  tbl.innerHTML = '<thead><tr><th>Year</th><th>Title</th><th style="text-align:right">Cited by</th></tr></thead><tbody>' +
+    D.top_cited.map(function(p){
+      var link = p.d ? ('https://doi.org/'+p.d) : ('https://openalex.org/'+p.id);
+      return '<tr><td>'+(p.y||'—')+'</td><td><a href="'+esc(link)+'" target="_blank" rel="noopener" style="color:var(--ink)">'+esc(p.t)+'</a></td><td style="text-align:right">'+p.c.toLocaleString()+'</td></tr>';
+    }).join('') + '</tbody>';
+})();
+
+</script>
