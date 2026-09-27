@@ -333,7 +333,7 @@
 <div class="wrap">
   <p class="eyebrow">Literature scan &amp; annotation</p>
   <h1>Explore the data</h1>
-  <p class="dek">Analyses beyond the main browse table, over the combined keyword-search + forward/backward-snowball corpus (17,050 records, 3,864 included). <a href="../index.html">&larr; back to the main review</a></p>
+  <p class="dek">Analyses beyond the main browse table, over the combined keyword-search + forward/backward-snowball corpus (22,167 records, 4,660 included). <a href="../index.html">&larr; back to the main review</a></p>
 
   <section>
     <h2>Seed-centered citation network</h2>
@@ -362,7 +362,7 @@
   <section id="inst-country-section">
     <h2>Who publishes this: institutions &amp; countries</h2>
     <p class="section-note">Author affiliations for included papers only (excluded papers aren't attributed to institutions). "Publications" counts a paper once per institution/country that appears on it (a paper with two US co-authors from different schools counts once for the US, once for each school). "Citations" sums each paper's OpenAlex cited-by count into every institution/country on it -- a proxy for whose work in this space gets picked up, not a per-institution citation count in the strict bibliometric sense.</p>
-    <p class="obs"><b>Observation:</b> <b>United States</b> leads by publication count (905 papers), while <b>United States</b> leads by total citations (62,720), and the single most-published institution is <b>Carnegie Mellon University</b>.</p>
+    <p class="obs"><b>Observation:</b> <b>United States</b> leads by publication count (1046 papers), while <b>United States</b> leads by total citations (68,709), and the single most-published institution is <b>Carnegie Mellon University</b>.</p>
     <div class="mode-toggle" role="group" aria-label="Metric">
       <button id="metric-pubs" class="active" data-metric="pubs">Publications</button>
       <button id="metric-cites" data-metric="cites">Citations</button>
@@ -393,7 +393,7 @@
   <section>
     <h2>Where this literature is published</h2>
     <p class="section-note">Top 20 venues by record count, across the full combined corpus (included + excluded).</p>
-    <p class="obs"><b>Observation:</b> <b>arXiv (Cornell University)</b> is the single most common venue, with 381 records &mdash; among 20 distinct venues shown here alone.</p>
+    <p class="obs"><b>Observation:</b> <b>arXiv (Cornell University)</b> is the single most common venue, with 679 records &mdash; among 20 distinct venues shown here alone.</p>
     <div class="chart-card">
       <div class="chart-svg-wrap" id="chart-venues"></div>
     </div>
@@ -401,7 +401,7 @@
 
   <section>
     <h2>Citation counts</h2>
-    <p class="section-note">Distribution of OpenAlex cited-by counts across all 17,050 records, and the 20 most-cited papers in the corpus.</p>
+    <p class="section-note">Distribution of OpenAlex cited-by counts across all 22,167 records, and the 20 most-cited papers in the corpus.</p>
     <p class="obs"><b>Observation:</b> The single most-cited RECORD overall is <b>&ldquo;Deep Residual Learning for Image Recognition&rdquo;</b> (229,732 citations) &mdash; excluded at screening (not actually about social media bots); among INCLUDED papers, the most-cited is <b>&ldquo;Comparing Physician and Artificial Intelligence Chatbot Responses to P…&rdquo;</b> (2,611 citations, 2023).</p>
     <div class="chart-card">
       <div class="chart-svg-wrap" id="chart-citdist"></div>
@@ -415,7 +415,7 @@
   <section>
     <h2>Citation velocity</h2>
     <p class="section-note">Citations per year since publication (cited-by count &divide; years since publication), not raw cited-by count -- so a 2018 paper with 200 citations and a 2024 paper with 50 aren't compared unfairly. Each dot is one included paper; hover for its title. The line is the average velocity per publication year.</p>
-    <p class="obs"><b>Observation:</b> Average citation velocity has fallen from 9.71/yr in 2016 to 0.57/yr in 2026; the fastest-accumulating paper is <b>&ldquo;Comparing Physician and Artificial Intelligence Chatbot Responses to P…&rdquo;</b> at 652.75 citations/year.</p>
+    <p class="obs"><b>Observation:</b> Average citation velocity has fallen from 8.41/yr in 2016 to 0.52/yr in 2026; the fastest-accumulating paper is <b>&ldquo;Comparing Physician and Artificial Intelligence Chatbot Responses to P…&rdquo;</b> at 652.75 citations/year.</p>
     <div class="chart-card">
       <div class="chart-svg-wrap" id="chart-velocity"></div>
     </div>
@@ -427,8 +427,8 @@
 
   <section id="core-graph-section">
     <h2>Core citation graph</h2>
-    <p class="section-note">Edges BETWEEN included papers only -- who in this literature cites whom -- as opposed to the seed-centered network above (which only shows the 7 seeds' immediate neighbors). Shows the 150 most internally-cited papers (out of 20308 internal citation edges total among all included papers); node size and ring position scale with in-degree (how many other included papers cite it). Hover for title.</p>
-    <p class="obs"><b>Observation:</b> <b>&ldquo;The rise of social bots&rdquo;</b> is cited by 490 other included papers &mdash; the most of any paper in this corpus &mdash; out of 20,308 internal citation edges total.</p>
+    <p class="section-note">Edges BETWEEN included papers only -- who in this literature cites whom -- as opposed to the seed-centered network above (which only shows the 7 seeds' immediate neighbors). Shows the 150 most internally-cited papers (out of 23268 internal citation edges total among all included papers); node size and ring position scale with in-degree (how many other included papers cite it). Hover for title.</p>
+    <p class="obs"><b>Observation:</b> <b>&ldquo;The rise of social bots&rdquo;</b> is cited by 490 other included papers &mdash; the most of any paper in this corpus &mdash; out of 23,268 internal citation edges total.</p>
     <div class="chart-card">
       <div class="chart-svg-wrap" id="core-graph-wrap" style="overflow:auto; max-height:640px"></div>
     </div>
@@ -441,7 +441,7 @@
   <section id="topic-drift-section">
     <h2>Topic drift (title keywords, by year)</h2>
     <p class="section-note">Top keyword/phrase frequency extracted from included papers' TITLES only (abstracts aren't kept in the published dataset), by publication year -- a local, fully computed-from-title-text proxy for topic drift, not OpenAlex's own topic classification. Common English stopwords and corpus-constant terms ("social", "media", "bot(s)", "detection", etc.) are filtered out so the terms that DO show up are the ones that distinguish one year from another.</p>
-    <p class="obs"><b>Observation:</b> &ldquo;<b>chatbot</b>&rdquo; shows the largest rise of any tracked title-keyword, from 3 mentions in 2016 to 84 in 2026.</p>
+    <p class="obs"><b>Observation:</b> &ldquo;<b>chatbot</b>&rdquo; shows the largest rise of any tracked title-keyword, from 4 mentions in 2016 to 106 in 2026.</p>
     <div class="chart-card">
       <div class="chart-svg-wrap" id="chart-topics"></div>
       <div class="legend" id="legend-topics"></div>
@@ -451,7 +451,7 @@
   <section>
     <h2>Bot-persona co-occurrence</h2>
     <p class="section-note">Among included papers, how often each pair of the 10 most-common bot personas is tagged on the SAME paper (diagonal = total papers with that persona).</p>
-    <p class="obs"><b>Observation:</b> <b>Unclassified</b> is the most-tagged bot persona overall (1530 papers), and <b>Unclassified</b> + <b>Conversational Bot</b> co-occur on the same paper more than any other pair (107 papers).</p>
+    <p class="obs"><b>Observation:</b> <b>Unclassified</b> is the most-tagged bot persona overall (1897 papers), and <b>Unclassified</b> + <b>Conversational Bot</b> co-occur on the same paper more than any other pair (143 papers).</p>
     <div class="chart-card">
       <div id="heatmap-persona"></div>
     </div>
@@ -460,7 +460,7 @@
   <section>
     <h2>Governance actor &times; typology</h2>
     <p class="section-note">Among included papers, which governance actor (platform / government / civil society) each governance-typology idea is addressed to.</p>
-    <p class="obs"><b>Observation:</b> The most common governance pairing is <b>government</b> actors addressed via <b>Legal &amp; Regulatory Frameworks</b> (176 papers).</p>
+    <p class="obs"><b>Observation:</b> The most common governance pairing is <b>government</b> actors addressed via <b>Legal &amp; Regulatory Frameworks</b> (199 papers).</p>
     <div class="chart-card">
       <div id="heatmap-actor-typ"></div>
     </div>
@@ -469,7 +469,7 @@
   <section>
     <h2>Search vs. snowball, over time</h2>
     <p class="section-note">How much of each publication year's records came from the keyword-search stream vs. the forward/backward citation snowball. Snowball papers skew slightly older on average, since they're reachable by citation from mostly-older seed papers.</p>
-    <p class="obs"><b>Observation:</b> The forward/backward snowball's share of each year's records has shrunk from 89% in 2016 to 74% in 2026.</p>
+    <p class="obs"><b>Observation:</b> The forward/backward snowball's share of each year's records has shrunk from 92% in 2016 to 78% in 2026.</p>
     <div class="chart-card">
       <div class="chart-svg-wrap" id="chart-source"></div>
       <div class="legend" id="legend-source"></div>
