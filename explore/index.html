@@ -876,54 +876,136 @@
   // affiliations were fetched) ----------------
   function fmtNum(n){ return n.toLocaleString(); }
 
-  function findEntity(qLower, list, nameKey){
-    // longest matching name wins, so "Carnegie Mellon University" beats a shorter false-positive
-    var best = null, bestLen = 0;
+  var NAME_STOPWORDS = {university:1, college:1, institute:1, institution:1, school:1, academy:1,
+    polytechnic:1, of:1, the:1, and:1, for:1, technology:1, sciences:1, science:1, national:1};
+  var COUNTRY_ALIASES = {
+    'us':'united states', 'usa':'united states', 'u.s.':'united states', 'u.s.a.':'united states',
+    'america':'united states', 'american':'united states',
+    'uk':'united kingdom', 'u.k.':'united kingdom', 'britain':'united kingdom', 'british':'united kingdom', 'england':'united kingdom',
+    'china':'china', 'chinese':'china', 'prc':'china',
+    'south korea':'south korea', 'korea':'south korea', 'korean':'south korea',
+    'germany':'germany', 'german':'germany',
+    'uae':'united arab emirates', 'emirates':'united arab emirates'
+  };
+
+  function tokenize(s){
+    return (s || '').toLowerCase().split(/[^a-z0-9]+/).filter(function(w){ return w.length >= 3; });
+  }
+
+  // Generic partial/token-overlap matcher: works whether the user types the full name
+  // ("Carnegie Mellon University"), a partial name ("Carnegie Mellon", "Stanford"), or -- for
+  // countries -- a common alias/demonym ("US", "American", "UK"). Doesn't handle acronyms for
+  // institutions (no "MIT"/"UCLA" dictionary) -- that's a known gap, not silently pretended away.
+  // Scans the query for any alias key (as a whole word/phrase, anywhere in the text) and returns
+  // the canonical name(s) it resolves to, e.g. a query containing "...papers from the US..."
+  // yields ["united states"] even though "US" is buried mid-sentence.
+  function resolveAliases(qLower, aliases){
+    if (!aliases) return [];
+    var found = [];
+    Object.keys(aliases).forEach(function(alias){
+      var re = new RegExp('\\b' + alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b');
+      if (re.test(qLower)) found.push(aliases[alias]);
+    });
+    return found;
+  }
+
+  function matchEntity(qLower, list, nameKey, opts){
+    opts = opts || {};
+    var qTokens = tokenize(qLower);
+    if (!qTokens.length) return null;
+    var aliasTargets = resolveAliases(qLower, opts.aliases);
+    var best = null, bestScore = 0;
     list.forEach(function(item){
-      var name = (item[nameKey] || '').toLowerCase();
-      if (name && name.length > 2 && qLower.indexOf(name) !== -1 && name.length > bestLen){
-        best = item; bestLen = name.length;
+      var name = (item[nameKey] || '');
+      var nameLower = name.toLowerCase();
+      if (aliasTargets.indexOf(nameLower) !== -1){
+        best = item; bestScore = 999; return;
+      }
+      if (nameLower.length > 2 && qLower.indexOf(nameLower) !== -1){
+        // full name typed verbatim -- strongest possible match
+        var score = 100 + nameLower.length;
+        if (score > bestScore){ best = item; bestScore = score; }
+        return;
+      }
+      var nameTokens = tokenize(name).filter(function(w){ return !NAME_STOPWORDS[w]; });
+      if (!nameTokens.length) return;
+      var hits = nameTokens.filter(function(w){ return qTokens.indexOf(w) !== -1; }).length;
+      var ratio = hits / nameTokens.length;
+      // require at least half the significant words (min 1), so "Carnegie" alone can match
+      // "Carnegie Mellon University" but a single stray common word can't false-positive-match
+      // an unrelated multi-word name
+      if (hits >= 1 && ratio >= 0.5){
+        var score2 = hits * 10 + ratio;
+        if (score2 > bestScore){ best = item; bestScore = score2; }
       }
     });
     return best;
+  }
+
+  function topN(list, key, n){ return list.slice().sort(function(a,b){ return b[key]-a[key]; }).slice(0, n); }
+
+  function rankedList(items, valKey, labelFn){
+    return items.map(function(x, i){ return (i+1) + '. ' + labelFn(x) + ' (' + fmtNum(x[valKey]) + ')'; }).join('<br>');
   }
 
   function answerQuery(q){
     var qLower = q.toLowerCase().trim();
     if (!qLower) return 'Type a question above, then press Ask (or Enter).';
 
-    var yearMatch = qLower.match(/\b(20(1[6-9]|2[0-6]))\b/);
-    var year = yearMatch ? parseInt(yearMatch[1], 10) : null;
-    var wantsTop = /\b(most|top|highest|leading|largest)\b/.test(qLower);
-    var wantsCitations = /\bcit(ations?|ed|es)\b/.test(qLower);
+    var yearsFound = (qLower.match(/\b20(1[6-9]|2[0-6])\b/g) || []).map(function(y){ return parseInt(y, 10); });
+    var year = yearsFound.length === 1 ? yearsFound[0] : null;
+    var yearRange = yearsFound.length >= 2 ? [Math.min.apply(null, yearsFound), Math.max.apply(null, yearsFound)] : null;
 
-    // -- institution --
-    var inst = D.inst_country ? findEntity(qLower, D.inst_country.institutions, 'name') : null;
+    var nMatch = qLower.match(/\btop\s*(\d+)\b/) || qLower.match(/\b(\d+)\s*(institutions|countries|schools|universities)\b/);
+    var topCount = nMatch ? Math.max(1, Math.min(20, parseInt(nMatch[1], 10))) : null;
+
+    var wantsTop = topCount || /\b(most|top|highest|leading|largest|biggest|prolific|number\s*one|#\s*1|ranking|rank(ed)?|best)\b/.test(qLower);
+    var wantsCitations = /\bcit(ations?|ed|es|ing)\b/.test(qLower) && !/\bincluded|excluded\b/.test(qLower);
+    var wantsHowMany = /\bhow\s*many|count\s*of|number\s*of|total\s*(number|count)|amount\s*of\b/.test(qLower);
+
+    // -- corpus-wide overview (no specific entity named) --
+    if (/\b(total|overall|entire|whole|all)\b.*\bpapers?\b|\bpapers?\b.*\b(total|overall|in\s*(this|the)\s*(dataset|corpus|database))\b/.test(qLower)
+        && !/\binstitution|country|persona|bot\s*type|governance|venue\b/.test(qLower)){
+      var totalIncluded = D.citation_velocity ? D.citation_velocity.avg_by_year.reduce(function(s,a){return s+a.n;},0) : null;
+      if (totalIncluded != null) return 'This dataset has <b>' + fmtNum(totalIncluded) + '</b> included papers (2016–2026), drawn from a much larger raw-identification pool (see the main review page for the full funnel).';
+    }
+
+    // -- institution: ranked list of N --
+    if (topCount && D.inst_country && /\binstitution|school|university|college\b/.test(qLower)){
+      var instList = topN(D.inst_country.institutions, wantsCitations ? 'citations' : 'pubs', topCount);
+      return 'Top ' + topCount + ' institutions by ' + (wantsCitations?'citations':'publications') + ':<br>' +
+        rankedList(instList, wantsCitations ? 'citations' : 'pubs', function(x){ return esc(x.name); });
+    }
+    // -- country: ranked list of N --
+    if (topCount && D.inst_country && /\bcountr(y|ies)|nation\b/.test(qLower)){
+      var ctryList = topN(D.inst_country.countries, wantsCitations ? 'citations' : 'pubs', topCount);
+      return 'Top ' + topCount + ' countries by ' + (wantsCitations?'citations':'publications') + ':<br>' +
+        rankedList(ctryList, wantsCitations ? 'citations' : 'pubs', function(x){ return esc(x.name); });
+    }
+
+    // -- named institution --
+    var inst = D.inst_country ? matchEntity(qLower, D.inst_country.institutions, 'name') : null;
     if (inst){
       return '<b>' + esc(inst.name) + '</b> (' + esc(inst.country || '—') + '): ' +
         '<b>' + inst.pubs + '</b> publications, <b>' + fmtNum(inst.citations) + '</b> total citations ' +
         '(summed across its papers) among included papers.';
     }
 
-    // -- country --
-    var country = D.inst_country ? findEntity(qLower, D.inst_country.countries, 'name') : null;
+    // -- named country (with alias/demonym support) --
+    var country = D.inst_country ? matchEntity(qLower, D.inst_country.countries, 'name', {aliases: COUNTRY_ALIASES}) : null;
     if (country){
       return '<b>' + esc(country.name) + '</b>: <b>' + country.pubs + '</b> publications, ' +
         '<b>' + fmtNum(country.citations) + '</b> total citations, among included papers.';
     }
 
-    // -- "which institution/country has the most ..." (no specific name given) --
+    // -- "which institution/country has the most ..." (no specific name given, single answer) --
     if (wantsTop && /\binstitution|school|university|college\b/.test(qLower) && D.inst_country){
-      var topInst = D.inst_country.institutions.slice().sort(function(a,b){
-        return wantsCitations ? b.citations - a.citations : b.pubs - a.pubs;
-      })[0];
+      var topInst = topN(D.inst_country.institutions, wantsCitations ? 'citations' : 'pubs', 1)[0];
       if (topInst) return 'Top institution by ' + (wantsCitations ? 'citations' : 'publications') +
         ': <b>' + esc(topInst.name) + '</b> (' + topInst.pubs + ' papers, ' + fmtNum(topInst.citations) + ' citations).';
     }
-    if (wantsTop && /\bcountry|countries|nation\b/.test(qLower) && D.inst_country){
-      var topCountry = D.inst_country.countries.slice().sort(function(a,b){
-        return wantsCitations ? b.citations - a.citations : b.pubs - a.pubs;
-      })[0];
+    if (wantsTop && /\bcountr(y|ies)|nation\b/.test(qLower) && D.inst_country){
+      var topCountry = topN(D.inst_country.countries, wantsCitations ? 'citations' : 'pubs', 1)[0];
       if (topCountry) return 'Top country by ' + (wantsCitations ? 'citations' : 'publications') +
         ': <b>' + esc(topCountry.name) + '</b> (' + topCountry.pubs + ' papers, ' + fmtNum(topCountry.citations) + ' citations).';
     }
@@ -939,37 +1021,53 @@
       return 'Fastest-accumulating paper: <b>&ldquo;' + esc(tv.t) + '&rdquo;</b> at <b>' + tv.velocity + '</b> citations/year (' + fmtNum(tv.c) + ' total, ' + tv.y + ').';
     }
 
-    // -- bot persona --
-    var persona = D.persona_cooc ? findEntity(qLower, D.persona_cooc.labels.map(function(l,i){return {name:l, i:i};}), 'name') : null;
+    // -- most common bot persona / governance typology overall (no specific one named) --
+    if (wantsTop && /\bpersona|bot\s*type\b/.test(qLower) && D.persona_cooc && D.persona_cooc.labels.length){
+      var diagCounts = D.persona_cooc.labels.map(function(l, i){ return {name: l, n: D.persona_cooc.matrix[i][i]}; });
+      var topPersona = topN(diagCounts, 'n', 1)[0];
+      return 'Most-tagged bot persona overall: <b>' + esc(topPersona.name) + '</b> (' + topPersona.n + ' papers).';
+    }
+    if (wantsTop && /\bgovernance|typolog(y|ies)\b/.test(qLower) && D.actor_typ && D.actor_typ.typologies.length){
+      var typCounts = D.actor_typ.typologies.map(function(l, i){
+        return {name: l, n: D.actor_typ.matrix.reduce(function(s,row){return s+row[i];},0)};
+      });
+      var topTyp = topN(typCounts, 'n', 1)[0];
+      return 'Most common governance typology overall: <b>' + esc(topTyp.name) + '</b> (' + topTyp.n + ' papers).';
+    }
+
+    // -- named bot persona --
+    var persona = D.persona_cooc ? matchEntity(qLower, D.persona_cooc.labels.map(function(l,i){return {name:l, i:i};}), 'name') : null;
     if (persona){
       var count = D.persona_cooc.matrix[persona.i][persona.i];
       return '<b>' + esc(persona.name) + '</b>: tagged on <b>' + count + '</b> included papers.';
     }
 
-    // -- governance typology --
-    var typ = D.actor_typ ? findEntity(qLower, D.actor_typ.typologies.map(function(l,i){return {name:l, i:i};}), 'name') : null;
+    // -- named governance typology --
+    var typ = D.actor_typ ? matchEntity(qLower, D.actor_typ.typologies.map(function(l,i){return {name:l, i:i};}), 'name') : null;
     if (typ){
       var total = D.actor_typ.matrix.reduce(function(sum, row){ return sum + row[typ.i]; }, 0);
       return '<b>' + esc(typ.name) + '</b>: <b>' + total + '</b> included papers address this (across all governance actors).';
     }
 
     // -- governance actor (platform / government / civil_society) --
-    var actorNames = {platform:'platform', government:'government', civil_society:'civil society'};
-    for (var ai = 0; ai < D.actor_typ.actors.length; ai++){
-      var an = actorNames[D.actor_typ.actors[ai]] || D.actor_typ.actors[ai];
-      if (qLower.indexOf(an) !== -1){
-        var atotal = D.actor_typ.matrix[ai].reduce(function(a,b){return a+b;}, 0);
-        return '<b>' + esc(an) + '</b> governance actor: <b>' + atotal + '</b> included papers address it.';
+    if (D.actor_typ){
+      var actorNames = {platform:'platform', government:'government', civil_society:'civil society'};
+      for (var ai = 0; ai < D.actor_typ.actors.length; ai++){
+        var an = actorNames[D.actor_typ.actors[ai]] || D.actor_typ.actors[ai];
+        if (qLower.indexOf(an) !== -1 || qLower.indexOf(an.replace(' ', '')) !== -1){
+          var atotal = D.actor_typ.matrix[ai].reduce(function(a,b){return a+b;}, 0);
+          return '<b>' + esc(an) + '</b> governance actor: <b>' + atotal + '</b> included papers address it.';
+        }
       }
     }
 
     // -- venue --
-    var venue = D.venues ? findEntity(qLower, D.venues, 'venue') : null;
+    var venue = D.venues ? matchEntity(qLower, D.venues, 'venue') : null;
     if (venue){
       return '<b>' + esc(venue.venue) + '</b>: <b>' + venue.n + '</b> records (included + excluded).';
     }
 
-    // -- topic-drift term --
+    // -- topic-drift term (also handles a year range, summing across it) --
     if (D.topic_drift && D.topic_drift.terms){
       for (var ti = 0; ti < D.topic_drift.terms.length; ti++){
         var term = D.topic_drift.terms[ti];
@@ -978,19 +1076,39 @@
             var yi2 = D.topic_drift.years.indexOf(year);
             return '&ldquo;<b>' + esc(term) + '</b>&rdquo; appeared in title keywords of <b>' + D.topic_drift.matrix[yi2][ti] + '</b> included papers in ' + year + '.';
           }
+          if (yearRange){
+            var sum = 0;
+            D.topic_drift.years.forEach(function(y, yi3){
+              if (y >= yearRange[0] && y <= yearRange[1]) sum += D.topic_drift.matrix[yi3][ti];
+            });
+            return '&ldquo;<b>' + esc(term) + '</b>&rdquo; appeared in title keywords of <b>' + sum + '</b> included papers between ' + yearRange[0] + ' and ' + yearRange[1] + '.';
+          }
           var totalTerm = D.topic_drift.matrix.reduce(function(sum,row){return sum+row[ti];}, 0);
           return '&ldquo;<b>' + esc(term) + '</b>&rdquo; appeared in title keywords of <b>' + totalTerm + '</b> included papers across all years tracked (top-12 title-keyword list only -- see the topic drift chart).';
         }
       }
     }
 
-    // -- year only, no other entity --
-    if (year && D.citation_velocity){
-      var yearRow = D.citation_velocity.avg_by_year.filter(function(a){ return a.year === year; })[0];
-      if (yearRow) return '<b>' + year + '</b>: <b>' + yearRow.n + '</b> included papers, averaging ' + yearRow.avg_velocity + ' citations/year each.';
+    // -- year or year-range only, no other entity --
+    if (D.citation_velocity){
+      if (year){
+        var yearRow = D.citation_velocity.avg_by_year.filter(function(a){ return a.year === year; })[0];
+        if (yearRow) return '<b>' + year + '</b>: <b>' + yearRow.n + '</b> included papers, averaging ' + yearRow.avg_velocity + ' citations/year each.';
+      }
+      if (yearRange){
+        var rowsInRange = D.citation_velocity.avg_by_year.filter(function(a){ return a.year >= yearRange[0] && a.year <= yearRange[1]; });
+        if (rowsInRange.length){
+          var sumN = rowsInRange.reduce(function(s,a){return s+a.n;}, 0);
+          return 'Between <b>' + yearRange[0] + '</b> and <b>' + yearRange[1] + '</b>: <b>' + fmtNum(sumN) + '</b> included papers.';
+        }
+      }
+    }
+    if (wantsHowMany && D.citation_velocity){
+      var totalAll = D.citation_velocity.avg_by_year.reduce(function(s,a){return s+a.n;},0);
+      return '<b>' + fmtNum(totalAll) + '</b> included papers total (2016–2026).';
     }
 
-    return "I couldn't match that to an institution, country, bot persona, governance category, venue, or tracked title-keyword in this dataset. Try naming one of those directly, e.g. \"Carnegie Mellon University\", \"United States\", \"Chaos Bot\", or \"Legal & Regulatory Frameworks\".";
+    return "I couldn't match that to an institution, country, bot persona, governance category, venue, or tracked title-keyword in this dataset. Partial names work (\"Stanford\", \"Carnegie Mellon\") but acronyms don't (no \"MIT\"/\"UCLA\" dictionary yet). Try: \"top 5 countries by citations\", \"most common bot persona\", \"how many papers in 2020-2022\", or name something directly, e.g. \"Chaos Bot\" or \"Legal & Regulatory Frameworks\".";
   }
 
   var askInput = document.getElementById('ask-input');
