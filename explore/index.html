@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Explore the data — social media bots literature review</title>
 <style>
 
@@ -80,8 +81,10 @@
     font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-size:15.5px;
     line-height:1.55;
+    overflow-x:hidden; /* belt-and-suspenders: no child should ever force page-level horizontal scroll */
   }
   .wrap{max-width:880px; margin:0 auto; padding:56px 24px 80px}
+  @media (max-width:640px){ .wrap{padding:32px 16px 56px} }
 
   .eyebrow{
     font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -225,6 +228,9 @@
   .chart-card{
     background:var(--surface); border:1px solid var(--rule); border-radius:12px;
     padding:18px 18px 14px; box-shadow:var(--shadow); margin-top:22px;
+    overflow-x:auto; /* catches any oversized child (e.g. a wide heatmap) that isn't already
+                        wrapped in its own .chart-svg-wrap, so it scrolls in place instead of
+                        blowing out the page width on narrow screens */
   }
   .chart-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:10px}
   .chart-title{font-size:14px; font-weight:600; color:var(--ink)}
@@ -356,7 +362,7 @@
   <section id="inst-country-section">
     <h2>Who publishes this: institutions &amp; countries</h2>
     <p class="section-note">Author affiliations for included papers only (excluded papers aren't attributed to institutions). "Publications" counts a paper once per institution/country that appears on it (a paper with two US co-authors from different schools counts once for the US, once for each school). "Citations" sums each paper's OpenAlex cited-by count into every institution/country on it -- a proxy for whose work in this space gets picked up, not a per-institution citation count in the strict bibliometric sense.</p>
-    <p class="obs"><b>Observation:</b> Institution/country data hasn't been fetched yet (pending an OpenAlex batch fetch that keeps hitting rate limits) &mdash; this section will populate once that clears.</p>
+    <p class="obs"><b>Observation:</b> <b>United States</b> leads by publication count (905 papers), while <b>United States</b> leads by total citations (62,720), and the single most-published institution is <b>Carnegie Mellon University</b>.</p>
     <div class="mode-toggle" role="group" aria-label="Metric">
       <button id="metric-pubs" class="active" data-metric="pubs">Publications</button>
       <button id="metric-cites" data-metric="cites">Citations</button>
@@ -421,8 +427,8 @@
 
   <section id="core-graph-section">
     <h2>Core citation graph</h2>
-    <p class="section-note">Edges BETWEEN included papers only -- who in this literature cites whom -- as opposed to the seed-centered network above (which only shows the 7 seeds' immediate neighbors). Shows the 0 most internally-cited papers (out of 0 internal citation edges total among all included papers); node size and ring position scale with in-degree (how many other included papers cite it). Hover for title.</p>
-    <p class="obs"><b>Observation:</b> This section needs the same pending OpenAlex fetch as institutions/countries above (it reads each paper's reference list) &mdash; not yet available.</p>
+    <p class="section-note">Edges BETWEEN included papers only -- who in this literature cites whom -- as opposed to the seed-centered network above (which only shows the 7 seeds' immediate neighbors). Shows the 150 most internally-cited papers (out of 20308 internal citation edges total among all included papers); node size and ring position scale with in-degree (how many other included papers cite it). Hover for title.</p>
+    <p class="obs"><b>Observation:</b> <b>&ldquo;The rise of social bots&rdquo;</b> is cited by 490 other included papers &mdash; the most of any paper in this corpus &mdash; out of 20,308 internal citation edges total.</p>
     <div class="chart-card">
       <div class="chart-svg-wrap" id="core-graph-wrap" style="overflow:auto; max-height:640px"></div>
     </div>
