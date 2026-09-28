@@ -45,5 +45,5 @@
 <text x="535.0" y="590" font-size="11.5" text-anchor="middle">(bot-type and governance annotation)</text>
 <text x="535.0" y="605" font-size="11.5" text-anchor="middle" font-weight="bold">n = 3,233</text>
 <text x="20" y="640" font-size="9.5" fill="#666">Source: OpenAlex API (single database) + Semantic Scholar (generation-2 forward-citation discovery). Not a full multi-database systematic search.</text>
-<text x="20" y="654" font-size="9.5" fill="#666">Keyword-search stream screened by LLM judgment; snowball streams screened by a deterministic keyword-rule classifier. Run (UTC): 2026-09-27T14:19:06Z</text>
+<text x="20" y="654" font-size="9.5" fill="#666">Keyword-search stream screened by LLM judgment; snowball streams screened by a deterministic keyword-rule classifier. Run (UTC): 2026-09-28T00:17:15Z</text>
 </svg>

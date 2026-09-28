@@ -24,6 +24,8 @@
     --chart-surface:#fcfcfb;
     --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
     --series-5:#e87ba4; --series-6:#008300; --series-7:#4a3aa7; --series-8:#e34948;
+    --series-9:#7d5ba6; --series-10:#c2185b; --series-11:#00838f; --series-12:#8d6e63;
+    --series-13:#558b2f; --series-14:#5c6bc0; --series-15:#ef6c00; --series-16:#757575; --series-17:#3e2723;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -47,6 +49,8 @@
       --chart-surface:#1a1a19;
       --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
       --series-5:#d55181; --series-6:#008300; --series-7:#9085e9; --series-8:#e66767;
+      --series-9:#9575cd; --series-10:#e91e63; --series-11:#26c6da; --series-12:#a1887f;
+      --series-13:#7cb342; --series-14:#7986cb; --series-15:#ffa726; --series-16:#9e9e9e; --series-17:#a1887f;
     }
   }
   :root[data-theme="dark"]{
@@ -70,6 +74,8 @@
     --chart-surface:#1a1a19;
     --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
     --series-5:#d55181; --series-6:#008300; --series-7:#9085e9; --series-8:#e66767;
+    --series-9:#9575cd; --series-10:#e91e63; --series-11:#26c6da; --series-12:#a1887f;
+    --series-13:#7cb342; --series-14:#7986cb; --series-15:#ffa726; --series-16:#9e9e9e; --series-17:#a1887f;
   }
 
   *{box-sizing:border-box}
@@ -463,7 +469,7 @@
   <section>
     <h2>Bot-persona co-occurrence</h2>
     <p class="section-note">Among included papers, how often each pair of the 10 most-common bot personas is tagged on the SAME paper (diagonal = total papers with that persona).</p>
-    <p class="obs"><b>Observation:</b> <b>Unclassified</b> is the most-tagged bot persona overall (1908 papers), and <b>Unclassified</b> + <b>Conversational Bot</b> co-occur on the same paper more than any other pair (143 papers).</p>
+    <p class="obs"><b>Observation:</b> <b>Unclassified</b> is the most-tagged bot persona overall (1460 papers), and <b>Social Influence Bot</b> + <b>Amplifier Bot</b> co-occur on the same paper more than any other pair (72 papers).</p>
     <div class="chart-card">
       <div id="heatmap-persona"></div>
     </div>

@@ -23,6 +23,8 @@
     --chart-surface:#fcfcfb;
     --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
     --series-5:#e87ba4; --series-6:#008300; --series-7:#4a3aa7; --series-8:#e34948;
+    --series-9:#7d5ba6; --series-10:#c2185b; --series-11:#00838f; --series-12:#8d6e63;
+    --series-13:#558b2f; --series-14:#5c6bc0; --series-15:#ef6c00; --series-16:#757575; --series-17:#3e2723;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
@@ -46,6 +48,8 @@
       --chart-surface:#1a1a19;
       --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
       --series-5:#d55181; --series-6:#008300; --series-7:#9085e9; --series-8:#e66767;
+      --series-9:#9575cd; --series-10:#e91e63; --series-11:#26c6da; --series-12:#a1887f;
+      --series-13:#7cb342; --series-14:#7986cb; --series-15:#ffa726; --series-16:#9e9e9e; --series-17:#a1887f;
     }
   }
   :root[data-theme="dark"]{
@@ -69,6 +73,8 @@
     --chart-surface:#1a1a19;
     --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
     --series-5:#d55181; --series-6:#008300; --series-7:#9085e9; --series-8:#e66767;
+    --series-9:#9575cd; --series-10:#e91e63; --series-11:#26c6da; --series-12:#a1887f;
+    --series-13:#7cb342; --series-14:#7986cb; --series-15:#ffa726; --series-16:#9e9e9e; --series-17:#a1887f;
   }
 
   *{box-sizing:border-box}
@@ -326,7 +332,7 @@
 
   <section id="temporal-section">
     <h2>Bot types, governance, and time</h2>
-    <p class="section-note">Among the 3,233 included papers, 948 mention at least one governance/policy idea. Bot personas are harmonized to Ng &amp; Carley's <i>Dual Personas of Social Media Bots</i> taxonomy (arXiv:2504.12498), plus one added category — <b>LLM Agent</b> — for bots the paper explicitly describes as LLM/generative-AI-driven, a post-2023 wave the original 15-persona survey predates. Governance ideas are harmonized to a 14-category typology built from the raw phrasing (see the dataset's <code>GOVERNANCE_TYPOLOGY.md</code>). Categories beyond the top few (including the still-small LLM Agent count) are folded into “Other” per chart, but stay visible and filterable in the browse table below. 2026 is a partial year. <b>Click a bar segment or legend entry to see the papers behind it.</b></p>
+    <p class="section-note">Among the 3,233 included papers, 948 mention at least one governance/policy idea. Bot personas are harmonized to Ng &amp; Carley's <i>Dual Personas of Social Media Bots</i> taxonomy (arXiv:2504.12498) — all 15 personas plus one added category, <b>LLM Agent</b>, for bots the paper explicitly describes as LLM/generative-AI-driven, a post-2023 wave the original 15-persona survey predates. Every one of the 16 personas gets its own bar segment below (no "Other" bucket) — a paper describing no specific behavior is tagged <b>Unclassified</b> rather than folded away. Governance ideas are harmonized to a 14-category typology built from the raw phrasing (see the dataset's <code>GOVERNANCE_TYPOLOGY.md</code>); those still fold low-frequency categories into "Other" per chart, but stay visible and filterable in the browse table below. 2026 is a partial year. <b>Click a bar segment or legend entry to see the papers behind it.</b></p>
 
     <div class="mode-toggle" role="group" aria-label="Chart display mode">
       <button id="mode-abs" class="active" data-mode="abs">Absolute counts</button>
@@ -426,7 +432,7 @@
   // config per chart: which PAPERS field it corresponds to, and how the fold-bucket
   // ("Other …") maps back to "everything not in the named top list"
   var CHART_CONFIG = {
-    bot:   { field: 'bth', top: TEMPORAL.bot_series.slice(0, -1),  otherLabel: TEMPORAL.bot_series[TEMPORAL.bot_series.length-1] },
+    bot:   { field: 'bth', top: TEMPORAL.bot_series, otherLabel: null },
     actor: { field: 'gac', top: TEMPORAL.actor_series, otherLabel: null },
     gov:   { field: 'gty', top: TEMPORAL.gov_series.slice(0, -2), otherLabel: TEMPORAL.gov_series[TEMPORAL.gov_series.length-1],
              explicitOther: TEMPORAL.gov_series[TEMPORAL.gov_series.length-2] }
