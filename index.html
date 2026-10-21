@@ -302,6 +302,23 @@
   }
   footer a{color:var(--accent); text-decoration:none}
   footer a:hover{text-decoration:underline}
+
+  /* story cards */
+  .story-cards{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px}
+  @media (max-width:640px){ .story-cards{grid-template-columns:1fr} }
+  .story-card{
+    display:block; background:var(--surface); border:1px solid var(--rule); border-radius:12px;
+    padding:18px 20px; box-shadow:var(--shadow); text-decoration:none; color:var(--ink);
+    transition:border-color .12s;
+  }
+  .story-card:hover{border-color:var(--accent)}
+  .story-card .eyebrow{margin-bottom:8px}
+  .story-card h3{
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    font-weight:600; font-size:18px; margin:0 0 6px; color:var(--ink);
+  }
+  .story-card p{font-size:13.5px; color:var(--ink-soft); margin:0}
+  .story-card .go{font-size:12.5px; color:var(--accent); margin-top:10px; display:block}
 </style>
 
 <div class="wrap">
@@ -316,6 +333,21 @@
     <span>run 2026-09-26T16:07:51Z</span>
   </p>
   <p class="meta-line" style="margin-top:8px"><span>Related: <a href="governance_review/index.html" style="color:var(--accent)">bot governance &amp; platform-regulation literature review (111 legal/policy papers, DSA/NetzDG/co-regulation focus) →</a></span> · <span><a href="explore/index.html" style="color:var(--accent)">explore the data — citation network, venues, co-occurrence →</a></span></p>
+
+  <div class="story-cards">
+    <a class="story-card" href="literature_evolution/index.html">
+      <p class="eyebrow">The literature</p>
+      <h3>How the definition of bots changed</h3>
+      <p>Definitional drift, author clusters, venue camps, and persona co-occurrence across the 3,233-paper corpus, 2016–2026.</p>
+      <span class="go">Read the story →</span>
+    </a>
+    <a class="story-card" href="governance_evolution/index.html">
+      <p class="eyebrow">The governance debate</p>
+      <h3>How the governance frame shifted</h3>
+      <p>Who gets named responsible, which harms surface which year, and how the four policy-debate frames stack up.</p>
+      <span class="go">Read the story →</span>
+    </a>
+  </div>
 
   <section>
     <h2>Identification &amp; screening funnel</h2>

@@ -1,0 +1,244 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How the governance frame shifted — social media bots, 2016–2026</title>
+<style>
+  :root{
+    --bg:#f5f3ee; --surface:#ffffff; --surface-2:#eeece4;
+    --ink:#20242b; --ink-soft:#5b6169; --ink-faint:#8a8f97; --rule:#dbd6ca;
+    --accent:#a6480f; --accent-ink:#7a3409; --accent-soft:#f3dfcf;
+    --warn:#8a5a1f; --warn-soft:#faeedb; --dupe:#8a3b3b; --dupe-soft:#f7e9e9;
+    --good:#1f7a4d; --good-soft:#e9f7ee;
+    --shadow: 0 1px 2px rgba(30,26,14,.06), 0 6px 20px rgba(30,26,14,.05);
+    --series-1:#a6480f; --series-2:#2c6288; --series-3:#1baf7a; --series-4:#8a5a1f;
+    --series-5:#7d5ba6; --series-6:#c2185b; --series-7:#00838f; --series-8:#4a3aa7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171b; --surface:#1b1f24; --surface-2:#20252b;
+      --ink:#e9e7e0; --ink-soft:#a7adb6; --ink-faint:#767c85; --rule:#31363d;
+      --accent:#f0a35f; --accent-ink:#f7cfa0; --accent-soft:#3a2a1c;
+      --warn:#d6a15a; --warn-soft:#2b2317; --dupe:#d98b8b; --dupe-soft:#2c1e1e;
+      --good:#3fbb7d; --good-soft:#173325;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px rgba(0,0,0,.35);
+      --series-1:#f0a35f; --series-2:#79aed2; --series-3:#3fbb7d; --series-4:#d6a15a;
+      --series-5:#b79af0; --series-6:#e91e63; --series-7:#26c6da; --series-8:#9085e9;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171b; --surface:#1b1f24; --surface-2:#20252b;
+    --ink:#e9e7e0; --ink-soft:#a7adb6; --ink-faint:#767c85; --rule:#31363d;
+    --accent:#f0a35f; --accent-ink:#f7cfa0; --accent-soft:#3a2a1c;
+    --warn:#d6a15a; --warn-soft:#2b2317; --dupe:#d98b8b; --dupe-soft:#2c1e1e;
+    --good:#3fbb7d; --good-soft:#173325;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px rgba(0,0,0,.35);
+    --series-1:#f0a35f; --series-2:#79aed2; --series-3:#3fbb7d; --series-4:#d6a15a;
+    --series-5:#b79af0; --series-6:#e91e63; --series-7:#26c6da; --series-8:#9085e9;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:15.5px; line-height:1.55; overflow-x:hidden}
+  .wrap{max-width:880px; margin:0 auto; padding:56px 24px 80px}
+  @media (max-width:640px){ .wrap{padding:32px 16px 56px} }
+  .eyebrow{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:11.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--accent); font-weight:600; margin:0 0 10px}
+  h1{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif; font-weight:600; font-size:clamp(28px,4.4vw,40px); line-height:1.12; margin:0 0 14px; text-wrap:balance}
+  .dek{color:var(--ink-soft); font-size:16.5px; max-width:62ch; margin:0 0 8px}
+  .dek b{color:var(--ink); font-weight:600}
+  .meta-line{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:12px; color:var(--ink-faint); margin:22px 0 0; display:flex; gap:18px; flex-wrap:wrap}
+  .meta-line a{color:var(--accent)}
+  section{margin-top:52px}
+  h2{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-weight:600; font-size:21px; margin:0 0 6px}
+  .section-note{color:var(--ink-soft); font-size:14px; max-width:66ch; margin:0 0 20px}
+  .chart-card{background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:18px 18px 14px; box-shadow:var(--shadow); margin-top:22px; overflow-x:auto}
+  .chart-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:10px}
+  .chart-title{font-size:14px; font-weight:600}
+  .chart-note{font-size:12px; color:var(--ink-faint)}
+  .chart-box{position:relative; height:280px}
+  .chart-box.tall{height:340px}
+  .callout{background:var(--warn-soft); border:1px solid color-mix(in srgb, var(--warn) 35%, transparent); border-radius:10px; padding:14px 18px; font-size:13.5px; color:var(--ink); margin-top:14px}
+  .callout b{color:var(--warn)}
+  footer{margin-top:56px; padding-top:20px; border-top:1px solid var(--rule); font-size:12.5px; color:var(--ink-faint); display:flex; gap:18px; flex-wrap:wrap}
+  footer a{color:var(--accent); text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  code{font-family:ui-monospace,monospace; font-size:.92em; background:var(--surface-2); padding:1px 5px; border-radius:4px}
+
+  .subnav{position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule); margin:0 -24px 0; padding:10px 24px}
+  .subnav ul{display:flex; gap:16px; flex-wrap:wrap; list-style:none; margin:0; padding:0; font-size:12.5px; max-width:880px; margin-inline:auto}
+  .subnav a{color:var(--ink-soft); text-decoration:none}
+  .subnav a:hover{color:var(--accent)}
+
+  .stat-row{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:14px 0}
+  @media (max-width:700px){.stat-row{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:10px 12px; box-shadow:var(--shadow); text-align:center}
+  .stat .n{display:block; font-family:ui-monospace,monospace; font-size:22px; font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums}
+  .stat .l{display:block; font-size:10.5px; color:var(--ink-faint); margin-top:2px; line-height:1.3}
+
+  .gridN{display:grid; gap:10px}
+  .gridN.g4{grid-template-columns:repeat(4,1fr)}
+  @media (max-width:760px){.gridN.g4{grid-template-columns:repeat(2,1fr)}}
+  .tilecard{background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:12px 14px; box-shadow:var(--shadow)}
+  .tilecard .n{display:block; font-family:ui-monospace,monospace; font-weight:700; font-size:20px; color:var(--accent)}
+  .tilecard .l{display:block; font-size:11.5px; color:var(--ink-soft); margin-top:2px}
+
+  .proposal{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px}
+  @media (max-width:760px){.proposal{grid-template-columns:1fr}}
+  .pcard{background:var(--surface); border:1px solid var(--rule); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; padding:12px 14px; box-shadow:var(--shadow); font-size:13px; color:var(--ink-soft)}
+  .pcard b{display:block; color:var(--ink); font-size:13.5px; margin-bottom:4px}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow"><a href="../index.html" style="color:var(--accent); text-decoration:none">← Social media bots, 2016–2026</a></p>
+  <h1>How the governance frame shifted</h1>
+  <p class="dek">Who gets named responsible, which harms surface which year, and which policy frame wins — read
+  across a hand-curated 111-paper governance/legal set plus the full 3,233-paper corpus's governance tags.</p>
+  <p class="meta-line"><span>111-paper governance set · 3,233-paper corpus</span><span>·</span><span><a href="../index.html">← corpus overview</a></span><span>·</span><span><a href="../literature_evolution/index.html">literature story →</a></span></p>
+</div>
+
+<nav class="subnav"><ul>
+  <li><a href="#who">Who governs</a></li>
+  <li><a href="#harms">Harms by year</a></li>
+  <li><a href="#subgroups">Subgroups</a></li>
+  <li><a href="#frames">Policy frames</a></li>
+  <li><a href="#taxonomy">Harm taxonomy</a></li>
+  <li><a href="#proposal">Proposal</a></li>
+</ul></nav>
+
+<div class="wrap">
+  <section id="who">
+    <h2>Who should govern bots?</h2>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Governance actor named, by year</span><span class="chart-note">full corpus, stacked</span></div>
+      <div class="chart-box tall"><canvas id="chartActorsYear"></canvas></div>
+    </div>
+    <div class="callout">In the 111-paper set, <b>international/multilateral</b> framing (EU, DSA, UN) now leads (34 papers) — ahead of national government (28) and platform self-regulation (25). Local/state government: 1 paper.</div>
+  </section>
+
+  <section id="harms">
+    <h2>Harms &amp; benefits, by year</h2>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Harm category mentions, by year</span><span class="chart-note">111-paper governance set</span></div>
+      <div class="chart-box tall"><canvas id="chartHarmsYear"></canvas></div>
+    </div>
+    <div class="stat-row" id="harmYearSpan"></div>
+    <p class="section-note" style="margin-top:6px">Years active = distinct years at least one paper raised that harm.</p>
+  </section>
+
+  <section id="subgroups">
+    <h2>Bots in the military, elderly, crisis response…</h2>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Subgroup / context focus</span><span class="chart-note">111-paper governance set</span></div>
+      <div class="chart-box tall"><canvas id="chartSubgroups"></canvas></div>
+    </div>
+    <div class="callout">Elderly users and public-health contexts are least-discussed (1–2 papers) despite being flagged as high-vulnerability elsewhere in the HCI/chatbot literature — a gap between where harm is <b>studied</b> and where it's <b>plausible but under-researched</b>.</div>
+  </section>
+
+  <section id="frames">
+    <h2>The four policy-debate frames</h2>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Innovation · Security · Economy · Rights</span><span class="chart-note">by year</span></div>
+      <div class="chart-box tall"><canvas id="chartPolicyYear"></canvas></div>
+    </div>
+    <div class="gridN g4" id="policyTiles"></div>
+    <p class="section-note" style="margin-top:10px">The "don't over-regulate" frame — the one most invoked in public industry debate — is the <b>least</b>-represented argument in the academic literature itself.</p>
+  </section>
+
+  <section id="taxonomy">
+    <h2>Harm type: physical, economic, informational, psychological, political, social</h2>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Papers by harm type</span><span class="chart-note">111-paper set, totals</span></div>
+      <div class="chart-box tall"><canvas id="chartHarmTotals"></canvas></div>
+    </div>
+  </section>
+
+  <section id="proposal">
+    <h2>What a more nuanced governance would do</h2>
+    <p class="section-note">The two biggest governance-idea categories every year are blunt by design — Detection &amp; Technical Countermeasures (48 papers, 2025) and General Countermeasures (54, 2025). What's growing <i>faster</i>, off a smaller base: Multi-Stakeholder Collaboration (0→7), Accountability &amp; Liability (1→7), Ethical &amp; Normative Design (1→9).</p>
+    <div class="proposal">
+      <div class="pcard"><b>1. Disclosure, not a binary</b>Tie detection to disclosed-vs-undisclosed, so conversational AI and influence bots stop being regulated identically.</div>
+      <div class="pcard"><b>2. Formalize the fastest-growing idea</b>Multi-stakeholder / co-governance categories are growing fastest from the smallest base — give them standing, not an afterthought.</div>
+      <div class="pcard"><b>3. Extend "international" downward</b>The framing that already dominates platform governance should reach the under-studied subgroups — elder fraud, health-crisis misinformation.</div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Data: <code>governance_deep_tags.json</code>, <code>temporal_analysis.json</code> in <code>forward_backward_review/data/</code>. See also <a href="../governance_review/index.html">the 111-paper governance/legal review</a> and <a href="../literature_evolution/index.html">how the definition of bots changed</a>.</span>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  const A = window.GOV_DATA || {};
+  function cssvar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  Chart.defaults.font.family = "ui-sans-serif, -apple-system, 'Segoe UI', Roboto, sans-serif";
+  Chart.defaults.color = cssvar('--ink-soft');
+  Chart.defaults.borderColor = cssvar('--rule');
+  const palette = Array.from({length:8},(_,i)=>cssvar('--series-'+(i+1)));
+
+  function lineChart(canvasId, labels, series, stacked, fill){
+    const ctx = document.getElementById(canvasId);
+    if(!ctx) return;
+    return new Chart(ctx, { type:'line',
+      data:{ labels, datasets: series.map((s,i)=>({
+        label:s.label, data:s.data, borderColor:palette[i%palette.length],
+        backgroundColor:palette[i%palette.length]+(fill?'55':'33'), fill:!!fill, tension:.3,
+        borderWidth:2.5, pointRadius:2, pointHoverRadius:4, stack: stacked? 'st':undefined,
+      })) },
+      options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:'index', intersect:false},
+        scales:{ x:{grid:{color:cssvar('--rule')}, ticks:{color:cssvar('--ink-faint')}},
+                 y:{beginAtZero:true, stacked:!!stacked, grid:{color:cssvar('--rule')}, ticks:{color:cssvar('--ink-faint'), precision:0}} },
+        plugins:{ legend:{position:'bottom', labels:{boxWidth:12, boxHeight:12, color:cssvar('--ink-soft')}} } }
+    });
+  }
+  function barChartH(canvasId, labels, data, color){
+    const ctx = document.getElementById(canvasId);
+    if(!ctx) return;
+    return new Chart(ctx, { type:'bar',
+      data:{ labels, datasets:[{ data, backgroundColor:color||palette[0], borderRadius:4, maxBarThickness:20 }] },
+      options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+        scales:{ x:{beginAtZero:true, grid:{color:cssvar('--rule')}, ticks:{color:cssvar('--ink-faint'), precision:0}}, y:{grid:{display:false}, ticks:{color:cssvar('--ink-soft')}} },
+        plugins:{ legend:{display:false} } }
+    });
+  }
+
+  (function(){
+    const d = A.gac_by_year; if(!d) return;
+    lineChart('chartActorsYear', d.years, d.categories.map((c,i)=>({label:c, data:d.matrix.map(row=>row[i])})), true, true);
+  })();
+
+  (function(){
+    const d = A.gov_deep && A.gov_deep.harms_by_year; if(!d) return;
+    lineChart('chartHarmsYear', d.years, d.categories.map((c,i)=>({label:c, data:d.matrix.map(row=>row[i])})));
+    const span = document.getElementById('harmYearSpan');
+    if(span){
+      span.innerHTML = d.categories.map((c,i)=>{
+        const active = d.years.filter((y,yi)=> d.matrix[yi][i] > 0).length;
+        return `<div class="stat"><span class="n">${active}</span><span class="l">${c}</span></div>`;
+      }).join('');
+    }
+  })();
+
+  (function(){
+    const t = (A.gov_deep && A.gov_deep.totals && A.gov_deep.totals.subgroups) || {};
+    const entries = Object.entries(t).sort((a,b)=>b[1]-a[1]);
+    barChartH('chartSubgroups', entries.map(x=>x[0]), entries.map(x=>x[1]), cssvar('--accent'));
+  })();
+
+  (function(){
+    const d = A.gov_deep && A.gov_deep.policy_by_year; if(!d) return;
+    lineChart('chartPolicyYear', d.years, d.categories.map((c,i)=>({label:c, data:d.matrix.map(row=>row[i])})));
+    const t = (A.gov_deep && A.gov_deep.totals && A.gov_deep.totals.policy_debate) || {};
+    const tiles = document.getElementById('policyTiles');
+    if(tiles){
+      tiles.innerHTML = Object.entries(t).sort((a,b)=>b[1]-a[1]).map(([k,v])=>
+        `<div class="tilecard"><span class="n">${v}</span><span class="l">${k}</span></div>`).join('');
+    }
+  })();
+
+  (function(){
+    const t = (A.gov_deep && A.gov_deep.totals && A.gov_deep.totals.harms) || {};
+    const entries = Object.entries(t).sort((a,b)=>b[1]-a[1]);
+    barChartH('chartHarmTotals', entries.map(x=>x[0]), entries.map(x=>x[1]), cssvar('--accent'));
+  })();
+})();
+</script>

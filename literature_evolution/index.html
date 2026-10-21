@@ -1,0 +1,278 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How the literature changed — social media bots, 2016–2026</title>
+<style>
+  :root{
+    --bg:#f5f3ee; --surface:#ffffff; --surface-2:#eeece4;
+    --ink:#20242b; --ink-soft:#5b6169; --ink-faint:#8a8f97; --rule:#dbd6ca;
+    --accent:#2c6288; --accent-ink:#173c53; --accent-soft:#e6eef3;
+    --warn:#8a5a1f; --warn-soft:#faeedb; --dupe:#8a3b3b; --dupe-soft:#f7e9e9;
+    --good:#1f7a4d; --good-soft:#e9f7ee;
+    --shadow: 0 1px 2px rgba(30,26,14,.06), 0 6px 20px rgba(30,26,14,.05);
+    --chart-surface:#fcfcfb;
+    --series-1:#2a78d6; --series-2:#eb6834; --series-3:#1baf7a; --series-4:#eda100;
+    --series-5:#e87ba4; --series-6:#008300; --series-7:#4a3aa7; --series-8:#e34948;
+    --series-9:#7d5ba6; --series-10:#c2185b; --series-11:#00838f; --series-12:#8d6e63;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14171b; --surface:#1b1f24; --surface-2:#20252b;
+      --ink:#e9e7e0; --ink-soft:#a7adb6; --ink-faint:#767c85; --rule:#31363d;
+      --accent:#79aed2; --accent-ink:#cfe6f4; --accent-soft:#1f2c35;
+      --warn:#d6a15a; --warn-soft:#2b2317; --dupe:#d98b8b; --dupe-soft:#2c1e1e;
+      --good:#3fbb7d; --good-soft:#173325;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px rgba(0,0,0,.35);
+      --chart-surface:#1a1a19;
+      --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+      --series-5:#d55181; --series-6:#008300; --series-7:#9085e9; --series-8:#e66767;
+      --series-9:#9575cd; --series-10:#e91e63; --series-11:#26c6da; --series-12:#a1887f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14171b; --surface:#1b1f24; --surface-2:#20252b;
+    --ink:#e9e7e0; --ink-soft:#a7adb6; --ink-faint:#767c85; --rule:#31363d;
+    --accent:#79aed2; --accent-ink:#cfe6f4; --accent-soft:#1f2c35;
+    --warn:#d6a15a; --warn-soft:#2b2317; --dupe:#d98b8b; --dupe-soft:#2c1e1e;
+    --good:#3fbb7d; --good-soft:#173325;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px rgba(0,0,0,.35);
+    --chart-surface:#1a1a19;
+    --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70; --series-4:#c98500;
+    --series-5:#d55181; --series-6:#008300; --series-7:#9085e9; --series-8:#e66767;
+    --series-9:#9575cd; --series-10:#e91e63; --series-11:#26c6da; --series-12:#a1887f;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; font-size:15.5px; line-height:1.55; overflow-x:hidden}
+  .wrap{max-width:880px; margin:0 auto; padding:56px 24px 80px}
+  @media (max-width:640px){ .wrap{padding:32px 16px 56px} }
+  .eyebrow{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:11.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--accent); font-weight:600; margin:0 0 10px}
+  h1{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif; font-weight:600; font-size:clamp(28px,4.4vw,40px); line-height:1.12; margin:0 0 14px; text-wrap:balance}
+  .dek{color:var(--ink-soft); font-size:16.5px; max-width:62ch; margin:0 0 8px}
+  .dek b{color:var(--ink); font-weight:600}
+  .meta-line{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:12px; color:var(--ink-faint); margin:22px 0 0; display:flex; gap:18px; flex-wrap:wrap}
+  .meta-line a{color:var(--accent)}
+  section{margin-top:52px}
+  h2{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-weight:600; font-size:21px; margin:0 0 6px}
+  h3{font-size:14px; font-weight:600; margin:0 0 4px; color:var(--ink)}
+  .section-note{color:var(--ink-soft); font-size:14px; max-width:66ch; margin:0 0 20px}
+  p.era{margin:0 0 14px; max-width:68ch; color:var(--ink-soft); font-size:14px}
+  p.era .yr{font-family:ui-monospace,monospace; color:var(--accent); font-weight:600}
+  p.era b{color:var(--ink)}
+  .chart-card{background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:18px 18px 14px; box-shadow:var(--shadow); margin-top:22px; overflow-x:auto}
+  .chart-head{display:flex; align-items:baseline; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:10px}
+  .chart-title{font-size:14px; font-weight:600}
+  .chart-note{font-size:12px; color:var(--ink-faint)}
+  .chart-box{position:relative; height:280px}
+  .chart-box.tall{height:340px}
+  .callout{background:var(--warn-soft); border:1px solid color-mix(in srgb, var(--warn) 35%, transparent); border-radius:10px; padding:14px 18px; font-size:13.5px; color:var(--ink); margin-top:14px}
+  .callout b{color:var(--warn)}
+  .grid2{display:grid; grid-template-columns:1.1fr .9fr; gap:18px}
+  @media (max-width:760px){.grid2{grid-template-columns:1fr}}
+  .table-wrap{border:1px solid var(--rule); border-radius:10px; overflow:auto; background:var(--surface); box-shadow:var(--shadow)}
+  table{border-collapse:collapse; width:100%; font-size:13px}
+  thead th{position:sticky; top:0; background:var(--surface-2); text-align:left; padding:8px 10px; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-soft); border-bottom:1px solid var(--rule); font-weight:600; white-space:nowrap}
+  tbody td{padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top}
+  td.yr{font-family:ui-monospace,monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+  td.n{font-family:ui-monospace,monospace; font-variant-numeric:tabular-nums; text-align:right; color:var(--ink-soft)}
+  footer{margin-top:56px; padding-top:20px; border-top:1px solid var(--rule); font-size:12.5px; color:var(--ink-faint); display:flex; gap:18px; flex-wrap:wrap}
+  footer a{color:var(--accent); text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  .note{font-size:12px; color:var(--ink-faint); margin-top:8px}
+  code{font-family:ui-monospace,monospace; font-size:.92em; background:var(--surface-2); padding:1px 5px; border-radius:4px}
+
+  /* sticky nav */
+  .subnav{position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule); margin:0 -24px 0; padding:10px 24px}
+  .subnav ul{display:flex; gap:16px; flex-wrap:wrap; list-style:none; margin:0; padding:0; font-size:12.5px; max-width:880px; margin-inline:auto}
+  .subnav a{color:var(--ink-soft); text-decoration:none}
+  .subnav a:hover{color:var(--accent)}
+
+  /* timeline strip */
+  .timeline{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:16px}
+  @media (max-width:900px){.timeline{grid-template-columns:repeat(2,1fr)}}
+  .tl-card{background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:12px 13px; box-shadow:var(--shadow)}
+  .tl-card .yr{display:block; font-family:ui-monospace,monospace; font-size:11.5px; font-weight:700; color:var(--accent); margin-bottom:6px}
+  .tl-card .label{display:block; font-weight:600; font-size:13px; margin-bottom:4px}
+  .tl-card .ex{display:block; font-size:11.5px; color:var(--ink-faint); line-height:1.35}
+
+  .camps3{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0}
+  @media (max-width:760px){.camps3{grid-template-columns:1fr}}
+  .camp{background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:12px 14px; box-shadow:var(--shadow); font-size:12.5px; color:var(--ink-soft)}
+  .camp b{display:block; color:var(--ink); font-size:13px; margin-bottom:3px}
+  .camp .venues{display:block; margin-top:5px; color:var(--ink-faint); font-size:11px}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow"><a href="../index.html" style="color:var(--accent); text-decoration:none">← Social media bots, 2016–2026</a></p>
+  <h1>How the definition of bots changed</h1>
+  <p class="dek">Five rereadings of the same word, traced through the review's 3,233 included papers — from
+  <b>"automated identity shaping discourse"</b> in 2016 to <b>"is this even still the right word for an LLM
+  agent"</b> in 2026.</p>
+  <p class="meta-line"><span>3,233 included papers, 2016–2026</span><span>·</span><span><a href="../index.html">← corpus overview</a></span><span>·</span><span><a href="../governance_evolution/index.html">governance story →</a></span></p>
+</div>
+
+<nav class="subnav"><ul>
+  <li><a href="#definition">Definition</a></li>
+  <li><a href="#cooccurrence">Framing by year</a></li>
+  <li><a href="#associations">Associations</a></li>
+  <li><a href="#authors">Authors</a></li>
+  <li><a href="#camps">Camps</a></li>
+  <li><a href="#venues">Venues</a></li>
+</ul></nav>
+
+<div class="wrap">
+  <section id="definition">
+    <h2>Definitional drift, era by era</h2>
+    <p class="section-note">The single highest-cited paper from each window — the definition moved with whatever got attention.</p>
+    <div class="timeline">
+      <div class="tl-card"><span class="yr">2016–17</span><span class="label">The influence-bot</span><span class="ex">Automated identity shaping discourse. <i>The Rise of Social Bots</i>, Comm. ACM.</span></div>
+      <div class="tl-card"><span class="yr">2018–19</span><span class="label">The propaganda node</span><span class="ex">A distribution mechanism, not an author. <i>Low-credibility content</i>, Nat. Comms.</span></div>
+      <div class="tl-card"><span class="yr">2020–21</span><span class="label">The detection target</span><span class="ex">Whatever scores above threshold. <i>Blame the Bot</i>, J. Marketing (HCI split begins).</span></div>
+      <div class="tl-card"><span class="yr">2022–23</span><span class="label">The collision</span><span class="ex">ChatGPT arrives. <i>Physician vs. AI Chatbot</i>, JAMA — "bot" now means two things at once.</span></div>
+      <div class="tl-card"><span class="yr">2024–26</span><span class="label">The LLM agent</span><span class="ex">Is "bot" still the word? <i>GenAI against humanity</i>, J. Comp. Soc. Sci.</span></div>
+    </div>
+  </section>
+
+  <section id="cooccurrence">
+    <h2>Which framings grew, which faded</h2>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Bot-persona tags by year</span><span class="chart-note">top 6 of 16 categories</span></div>
+      <div class="chart-box tall"><canvas id="chartCooccur"></canvas></div>
+    </div>
+    <div class="callout" id="cooccurCallout">Loading…</div>
+  </section>
+
+  <section id="associations">
+    <h2>What bots get linked to, over time</h2>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Term co-occurrence with "bot," by year</span><span class="chart-note">top 7 terms</span></div>
+      <div class="chart-box tall"><canvas id="chartTopicDrift"></canvas></div>
+    </div>
+  </section>
+
+  <section id="authors">
+    <h2>The dominant authors</h2>
+    <div class="grid2">
+      <div class="chart-card" style="margin-top:0">
+        <div class="chart-head"><span class="chart-title">Governance/legal set</span><span class="chart-note">complete, n=111</span></div>
+        <div class="chart-box"><canvas id="chartAuthorsGov"></canvas></div>
+      </div>
+      <div class="chart-card" style="margin-top:0">
+        <div class="chart-head"><span class="chart-title">Main corpus</span><span class="chart-note" id="authorFetchNote">partial fetch</span></div>
+        <div class="chart-box"><canvas id="chartAuthorsMain"></canvas></div>
+      </div>
+    </div>
+    <div class="callout">Main-corpus ranking is seed-biased (snowball seeded from Ng &amp; Carley's own taxonomy papers). The governance-set ranking — Gorwa, Howard &amp; Kollanyi, Calo — is a cleaner read on cited authority.</div>
+  </section>
+
+  <section id="camps">
+    <h2>Competing camps, not one line of research</h2>
+    <div class="camps3">
+      <div class="camp"><b>Detection / network science</b>Structural definition (graph position, Botometer score).<span class="venues">IEEE Access · arXiv · Zenodo</span></div>
+      <div class="camp"><b>Computational propaganda</b>Functional definition — what bots do to discourse.<span class="venues">AAAI ICWSM · Social Media+Society</span></div>
+      <div class="camp"><b>HCI / conversational agent</b>Disclosed, usually benign dialogue system.<span class="venues">ACM CHI · J. Marketing · JAMA</span></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Persona co-occurrence, same paper</span><span class="chart-note">bubble = # papers tagging both</span></div>
+      <div class="chart-box tall"><canvas id="chartPersonaCooc"></canvas></div>
+    </div>
+  </section>
+
+  <section id="venues">
+    <h2>Major journals and conferences</h2>
+    <div class="chart-card">
+      <div class="chart-head"><span class="chart-title">Top venues by included-paper count</span></div>
+      <div class="chart-box tall"><canvas id="chartVenues"></canvas></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Data: <code>forward_backward_review/data/</code>. Methods reference: Webster &amp; Watson (2002), <i>MIS Quarterly</i>. See also <a href="../explore/index.html">citation-network explorer</a> and <a href="../governance_evolution/index.html">the governance story</a>.</span>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  const A = window.LIT_DATA || {};
+  function cssvar(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  Chart.defaults.font.family = "ui-sans-serif, -apple-system, 'Segoe UI', Roboto, sans-serif";
+  Chart.defaults.color = cssvar('--ink-soft');
+  Chart.defaults.borderColor = cssvar('--rule');
+  const palette = Array.from({length:12},(_,i)=>cssvar('--series-'+(i+1)));
+
+  function lineChart(canvasId, labels, series, stacked){
+    const ctx = document.getElementById(canvasId);
+    if(!ctx) return;
+    return new Chart(ctx, {
+      type:'line',
+      data:{ labels, datasets: series.map((s,i)=>({
+        label:s.label, data:s.data, borderColor:palette[i%palette.length],
+        backgroundColor:palette[i%palette.length]+'33', fill:false, tension:.3,
+        borderWidth:2.5, pointRadius:2, pointHoverRadius:4, stack: stacked? 'st':undefined,
+      })) },
+      options:{ responsive:true, maintainAspectRatio:false, interaction:{mode:'index', intersect:false},
+        scales:{ x:{grid:{color:cssvar('--rule')}, ticks:{color:cssvar('--ink-faint')}},
+                 y:{beginAtZero:true, stacked:!!stacked, grid:{color:cssvar('--rule')}, ticks:{color:cssvar('--ink-faint'), precision:0}} },
+        plugins:{ legend:{position:'bottom', labels:{boxWidth:12, boxHeight:12, color:cssvar('--ink-soft')}} } }
+    });
+  }
+  function barChartH(canvasId, labels, data, color){
+    const ctx = document.getElementById(canvasId);
+    if(!ctx) return;
+    return new Chart(ctx, { type:'bar',
+      data:{ labels, datasets:[{ data, backgroundColor:color||palette[0], borderRadius:4, maxBarThickness:20 }] },
+      options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false,
+        scales:{ x:{beginAtZero:true, grid:{color:cssvar('--rule')}, ticks:{color:cssvar('--ink-faint'), precision:0}}, y:{grid:{display:false}, ticks:{color:cssvar('--ink-soft')}} },
+        plugins:{ legend:{display:false} } }
+    });
+  }
+
+  (function(){
+    const d = A.bth_by_year; if(!d) return;
+    const totals = d.categories.map((c,i)=> d.matrix.reduce((s,row)=>s+row[i],0));
+    const order = d.categories.map((c,i)=>[c,i,totals[i]]).sort((a,b)=>b[2]-a[2]).slice(0,6);
+    lineChart('chartCooccur', d.years, order.map(([c,i])=>({label:c, data:d.matrix.map(row=>row[i])})));
+    const siIdx = d.categories.indexOf('Social Influence Bot'), llmIdx = d.categories.indexOf('LLM Agent');
+    const siSeries = d.matrix.map(r=>r[siIdx]), llmSeries = d.matrix.map(r=>r[llmIdx]);
+    const siPeak = d.years[siSeries.indexOf(Math.max(...siSeries))], llmPeak = d.years[llmSeries.indexOf(Math.max(...llmSeries))];
+    document.getElementById('cooccurCallout').innerHTML =
+      `<b>Social Influence Bot</b> peaks in <b>${siPeak}</b> (${Math.max(...siSeries)} papers) and has been the single largest persona category every year since 2016. ` +
+      `<b>LLM Agent</b> didn't exist before 2023, but by <b>${llmPeak}</b> it reaches ${Math.max(...llmSeries)} papers/year — and as a share of that year's papers it's risen from 0.8% (2023) to 5.9% (2026, partial year), the fastest-growing share of any persona category.`;
+  })();
+
+  (function(){
+    const d = A.topic_drift; if(!d) return;
+    const top = d.terms.slice(0,7);
+    lineChart('chartTopicDrift', d.years, top.map(t=>{ const ti=d.terms.indexOf(t); return {label:t, data:d.matrix.map(row=>row[ti])}; }));
+  })();
+
+  (function(){
+    const gov = (A.authors && A.authors.governance_set_ranked) || [];
+    barChartH('chartAuthorsGov', gov.slice(0,10).map(x=>x[0]), gov.slice(0,10).map(x=>x[1]), cssvar('--accent'));
+    const main = ((A.authors && A.authors.main_corpus_ranked_partial) || []).filter(x=>x[1]>1).slice(0,10);
+    barChartH('chartAuthorsMain', main.map(x=>x[0]), main.map(x=>x[1]), cssvar('--series-3'));
+    const note = document.getElementById('authorFetchNote');
+    if(note && A.authors) note.textContent = `partial: ${A.authors.main_corpus_fetched_n}/${A.authors.main_corpus_total_n} fetched`;
+  })();
+
+  (function(){
+    const d = A.persona_cooc; if(!d) return;
+    const labels = d.labels, data = [];
+    for(let i=0;i<labels.length;i++) for(let j=0;j<labels.length;j++){ if(i!==j) data.push({x:j,y:i,v:d.matrix[i][j]}); }
+    new Chart(document.getElementById('chartPersonaCooc'), { type:'bubble',
+      data:{ datasets:[{ label:'co-occurrences', data:data.map(p=>({x:p.x,y:p.y,r:Math.min(22,3+Math.sqrt(p.v))})), backgroundColor:cssvar('--series-2')+'99' }] },
+      options:{ responsive:true, maintainAspectRatio:false,
+        scales:{ x:{ ticks:{callback:(v)=>labels[v]||'', color:cssvar('--ink-faint'), autoSkip:false, maxRotation:60, minRotation:40}, min:-0.5, max:labels.length-0.5, grid:{color:cssvar('--rule')} },
+                  y:{ ticks:{callback:(v)=>labels[v]||'', color:cssvar('--ink-faint')}, min:-0.5, max:labels.length-0.5, grid:{color:cssvar('--rule')} } },
+        plugins:{ legend:{display:false}, tooltip:{callbacks:{label:(ctx)=>`${labels[ctx.raw.y]} × ${labels[ctx.raw.x]}: ${ctx.raw.v}`}} } }
+    });
+  })();
+
+  (function(){
+    const v = A.venues_ranked || [];
+    const top = v.slice(0,12);
+    barChartH('chartVenues', top.map(x=>x[0]), top.map(x=>x[1]), cssvar('--series-1'));
+  })();
+})();
+</script>
