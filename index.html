@@ -356,46 +356,6 @@
     <p class="query-list">Keyword queries: “social media bot”, “social media bots”, “social bot”, “social bots” &nbsp;·&nbsp; fields: title, abstract &nbsp;·&nbsp; type: article<br>Snowball seeds (forward + backward, depth 1): "The rise of social bots" (2016), "Botometer 101: social bot practicum for computational social scientists" (2022), "BotOrNot" (2016), "A global comparison of social media bot and human characteristics" (2025), "Detection of Bots in Social Media: A Systematic Review" (2020), "Unpacking the Social Media Bot: A Typology to Guide Research and Policy" (2018), "The spread of low-credibility content by social bots" (2018) &nbsp;·&nbsp; source: OpenAlex <code>referenced_works</code> + <code>cites:</code> filter</p>
   </section>
 
-  <section id="temporal-section">
-    <h2>Bot types, governance, and time</h2>
-    <p class="section-note">948 of the 3,233 included papers mention a governance/policy idea. Bot personas follow Ng &amp; Carley's 16-category taxonomy (arXiv:2504.12498: 15 personas + <b>LLM Agent</b> for post-2023 generative-AI-driven bots); governance ideas follow a 14-category typology. Deeper reads: <a href="literature_evolution/index.html">the literature story</a> · <a href="governance_evolution/index.html">the governance story</a>. 2026 is a partial year — <b>click a bar or legend entry to see the papers behind it.</b></p>
-
-    <div class="mode-toggle" role="group" aria-label="Chart display mode">
-      <button id="mode-abs" class="active" data-mode="abs">Absolute counts</button>
-      <button id="mode-pct" data-mode="pct">% share per year</button>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-head">
-        <span class="chart-title">Bot personas mentioned, by year</span>
-        <button class="table-toggle" data-target="tbl-bot">view as table</button>
-      </div>
-      <div class="chart-svg-wrap" id="chart-bot"></div>
-      <div class="legend" id="legend-bot"></div>
-      <table class="data-table" id="tbl-bot" hidden></table>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-head">
-        <span class="chart-title">Governance actor addressed, by year</span>
-        <button class="table-toggle" data-target="tbl-actor">view as table</button>
-      </div>
-      <div class="chart-svg-wrap" id="chart-actor"></div>
-      <div class="legend" id="legend-actor"></div>
-      <table class="data-table" id="tbl-actor" hidden></table>
-    </div>
-
-    <div class="chart-card">
-      <div class="chart-head">
-        <span class="chart-title">Governance typology, by year</span>
-        <button class="table-toggle" data-target="tbl-gov">view as table</button>
-      </div>
-      <div class="chart-svg-wrap" id="chart-gov"></div>
-      <div class="legend" id="legend-gov"></div>
-      <table class="data-table" id="tbl-gov" hidden></table>
-    </div>
-  </section>
-
   <section id="browse-section">
     <h2>Browse the annotated dataset</h2>
     <p class="section-note">All 22,165 records. Click a row to expand its full annotation (raw bot vocabulary, raw governance ideas, harmonized categories). Search matches title and venue.</p>
@@ -599,19 +559,6 @@
 
   function redrawAllCharts(){
     drawnCharts.forEach(renderOne);
-  }
-
-  drawStackedBar('bot', 'chart-bot', 'legend-bot', 'tbl-bot', TEMPORAL.years, TEMPORAL.bot_series, TEMPORAL.bot_matrix);
-  drawStackedBar('actor', 'chart-actor', 'legend-actor', 'tbl-actor', TEMPORAL.years, TEMPORAL.actor_series, TEMPORAL.actor_matrix);
-  drawStackedBar('gov', 'chart-gov', 'legend-gov', 'tbl-gov', TEMPORAL.years, TEMPORAL.gov_series, TEMPORAL.gov_matrix);
-
-  document.getElementById('mode-abs').addEventListener('click', function(){ setMode('abs'); });
-  document.getElementById('mode-pct').addEventListener('click', function(){ setMode('pct'); });
-  function setMode(m){
-    chartMode = m;
-    document.getElementById('mode-abs').classList.toggle('active', m === 'abs');
-    document.getElementById('mode-pct').classList.toggle('active', m === 'pct');
-    redrawAllCharts();
   }
 
   document.querySelectorAll('.table-toggle').forEach(function(btn){
