@@ -303,22 +303,14 @@
   footer a{color:var(--accent); text-decoration:none}
   footer a:hover{text-decoration:underline}
 
-  /* story cards */
-  .story-cards{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px}
-  @media (max-width:640px){ .story-cards{grid-template-columns:1fr} }
-  .story-card{
-    display:block; background:var(--surface); border:1px solid var(--rule); border-radius:12px;
-    padding:18px 20px; box-shadow:var(--shadow); text-decoration:none; color:var(--ink);
-    transition:border-color .12s;
-  }
-  .story-card:hover{border-color:var(--accent)}
-  .story-card .eyebrow{margin-bottom:8px}
-  .story-card h3{
-    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
-    font-weight:600; font-size:18px; margin:0 0 6px; color:var(--ink);
-  }
-  .story-card p{font-size:13.5px; color:var(--ink-soft); margin:0}
-  .story-card .go{font-size:12.5px; color:var(--accent); margin-top:10px; display:block}
+  /* two-pillar nav */
+  .pillars{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px}
+  @media (max-width:640px){ .pillars{grid-template-columns:1fr} }
+  .pillar{background:var(--surface); border:1px solid var(--rule); border-radius:12px; padding:18px 20px; box-shadow:var(--shadow)}
+  .pillar h3{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-weight:600; font-size:17px; margin:0 0 10px; color:var(--ink)}
+  .pillar-links{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
+  .pillar-links a{color:var(--ink); text-decoration:none; font-size:13.5px; display:block; padding:8px 10px; border-radius:8px; border:1px solid transparent; background:var(--surface-2)}
+  .pillar-links a:hover{border-color:var(--accent); color:var(--accent)}
 </style>
 
 <div class="wrap">
@@ -332,39 +324,41 @@
     <span>·</span>
     <span>run 2026-09-26T16:07:51Z</span>
   </p>
-  <p class="meta-line" style="margin-top:8px"><span>Related: <a href="governance_review/index.html" style="color:var(--accent)">bot governance &amp; platform-regulation literature review (111 legal/policy papers, DSA/NetzDG/co-regulation focus) →</a></span> · <span><a href="explore/index.html" style="color:var(--accent)">explore the data — citation network, venues, co-occurrence →</a></span></p>
-
-  <div class="story-cards">
-    <a class="story-card" href="literature_evolution/index.html">
-      <p class="eyebrow">The literature</p>
-      <h3>How the definition of bots changed</h3>
-      <p>Definitional drift, author clusters, venue camps, and persona co-occurrence across the 3,233-paper corpus, 2016–2026.</p>
-      <span class="go">Read the story →</span>
-    </a>
-    <a class="story-card" href="governance_evolution/index.html">
-      <p class="eyebrow">The governance debate</p>
-      <h3>How the governance frame shifted</h3>
-      <p>Who gets named responsible, which harms surface which year, and how the four policy-debate frames stack up.</p>
-      <span class="go">Read the story →</span>
-    </a>
+  <div class="pillars">
+    <div class="pillar">
+      <p class="eyebrow">Literature</p>
+      <h3>How has the field defined &amp; studied bots?</h3>
+      <ul class="pillar-links">
+        <li><a href="literature_evolution/index.html">How the definition of bots changed →</a></li>
+        <li><a href="explore/index.html">Explore the data — citations, venues, co-occurrence →</a></li>
+      </ul>
+    </div>
+    <div class="pillar">
+      <p class="eyebrow">Governance debate</p>
+      <h3>Who should govern bots, and how?</h3>
+      <ul class="pillar-links">
+        <li><a href="governance_evolution/index.html">How the governance frame shifted →</a></li>
+        <li><a href="governance_review/index.html">Bot governance &amp; platform-regulation review (111 papers) →</a></li>
+      </ul>
+    </div>
   </div>
 
   <section>
     <h2>Identification &amp; screening funnel</h2>
-    <p class="section-note">Two identification streams, unioned by OpenAlex work ID: (1) four keyword-search query variants (title/abstract × singular/plural), and (2) a forward/backward citation snowball from 7 seed papers — "The rise of social bots" (2016), "Botometer 101: social bot practicum for computational social scientists" (2022), "BotOrNot" (2016), "A global comparison of social media bot and human characteristics" (2025), "Detection of Bots in Social Media: A Systematic Review" (2020), "Unpacking the Social Media Bot: A Typology to Guide Research and Policy" (2018), "The spread of low-credibility content by social bots" (2018) — via OpenAlex reference lists (backward) and the <code>cites:</code> filter (forward). Each record is then screened for whether it substantively concerns social media bots.</p>
+    <p class="section-note">Records come from two streams — a keyword search and a forward/backward citation snowball from 7 seed papers (listed below) — then screened for whether each substantively concerns social media bots.</p>
     <div class="stats"><div class="stat"><span class="n">51,010</span><span class="lbl">raw hits (keyword search + forward/backward citations)</span></div><div class="stat"><span class="n dupe">−28,845</span><span class="lbl">duplicates removed</span></div><div class="stat"><span class="n">22,165</span><span class="lbl">unique records identified</span></div><div class="stat"><span class="n accent">3,233</span><span class="lbl">included after screening</span></div></div>
     <div class="yearbars"><div class="bar" style="height:6.2px" role="img" aria-label="0: 109 records"><span class="bar-val">109</span><span class="bar-yr"></span></div><div class="bar" style="height:4.0px" role="img" aria-label="2008: 1 records"><span class="bar-val">1</span><span class="bar-yr">08</span></div><div class="bar" style="height:22.0px" role="img" aria-label="2016: 871 records"><span class="bar-val">871</span><span class="bar-yr">16</span></div><div class="bar" style="height:27.1px" role="img" aria-label="2017: 1122 records"><span class="bar-val">1122</span><span class="bar-yr">17</span></div><div class="bar" style="height:34.9px" role="img" aria-label="2018: 1501 records"><span class="bar-val">1501</span><span class="bar-yr">18</span></div><div class="bar" style="height:43.3px" role="img" aria-label="2019: 1907 records"><span class="bar-val">1907</span><span class="bar-yr">19</span></div><div class="bar" style="height:53.4px" role="img" aria-label="2020: 2396 records"><span class="bar-val">2396</span><span class="bar-yr">20</span></div><div class="bar" style="height:54.1px" role="img" aria-label="2021: 2428 records"><span class="bar-val">2428</span><span class="bar-yr">21</span></div><div class="bar" style="height:51.6px" role="img" aria-label="2022: 2309 records"><span class="bar-val">2309</span><span class="bar-yr">22</span></div><div class="bar" style="height:55.9px" role="img" aria-label="2023: 2516 records"><span class="bar-val">2516</span><span class="bar-yr">23</span></div><div class="bar" style="height:60.0px" role="img" aria-label="2024: 2716 records"><span class="bar-val">2716</span><span class="bar-yr">24</span></div><div class="bar" style="height:55.1px" role="img" aria-label="2025: 2476 records"><span class="bar-val">2476</span><span class="bar-yr">25</span></div><div class="bar" style="height:41.4px" role="img" aria-label="2026: 1813 records"><span class="bar-val">1813</span><span class="bar-yr">26</span></div></div>
     <a class="prisma-link" href="prisma_flow_social_bots.svg" target="_blank" rel="noopener">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 6h6M5 9h4"/></svg>
       View full PRISMA 2020 flow diagram ↗
     </a>
-    <p class="section-note" style="margin-top:8px">1,049 records had no retrievable abstract (excluded automatically); the remaining 4,502 were screened title+abstract against one criterion: is this substantively about social media bots, not a false-positive keyword match? The keyword-search stream (2,783 unique records) was screened by an LLM reading each abstract; the forward/backward snowball stream (2,768 records not already in the keyword-search corpus) was screened by a deterministic keyword-rule classifier over the same criterion, documented in <code>forward_backward_review/scripts/annotate.py</code>. Single database (OpenAlex) and title+abstract only — a first-pass reproducible scan, not a peer-reviewed systematic review.</p>
+    <p class="section-note" style="margin-top:8px">4,502 records were screened title+abstract (LLM judgment for the keyword-search stream, a deterministic keyword-rule classifier for the snowball stream — see <code>forward_backward_review/scripts/annotate.py</code>); 1,049 had no abstract and were auto-excluded. Single database (OpenAlex), title+abstract only — a first-pass reproducible scan, not a peer-reviewed systematic review.</p>
     <p class="query-list">Keyword queries: “social media bot”, “social media bots”, “social bot”, “social bots” &nbsp;·&nbsp; fields: title, abstract &nbsp;·&nbsp; type: article<br>Snowball seeds (forward + backward, depth 1): "The rise of social bots" (2016), "Botometer 101: social bot practicum for computational social scientists" (2022), "BotOrNot" (2016), "A global comparison of social media bot and human characteristics" (2025), "Detection of Bots in Social Media: A Systematic Review" (2020), "Unpacking the Social Media Bot: A Typology to Guide Research and Policy" (2018), "The spread of low-credibility content by social bots" (2018) &nbsp;·&nbsp; source: OpenAlex <code>referenced_works</code> + <code>cites:</code> filter</p>
   </section>
 
   <section id="temporal-section">
     <h2>Bot types, governance, and time</h2>
-    <p class="section-note">Among the 3,233 included papers, 948 mention at least one governance/policy idea. Bot personas are harmonized to Ng &amp; Carley's <i>Dual Personas of Social Media Bots</i> taxonomy (arXiv:2504.12498) — all 15 personas plus one added category, <b>LLM Agent</b>, for bots the paper explicitly describes as LLM/generative-AI-driven, a post-2023 wave the original 15-persona survey predates. Every one of the 16 personas gets its own bar segment below (no "Other" bucket) — a paper describing no specific behavior is tagged <b>Unclassified</b> rather than folded away. Governance ideas are harmonized to a 14-category typology built from the raw phrasing (see the dataset's <code>GOVERNANCE_TYPOLOGY.md</code>); those still fold low-frequency categories into "Other" per chart, but stay visible and filterable in the browse table below. 2026 is a partial year. <b>Click a bar segment or legend entry to see the papers behind it.</b></p>
+    <p class="section-note">948 of the 3,233 included papers mention a governance/policy idea. Bot personas follow Ng &amp; Carley's 16-category taxonomy (arXiv:2504.12498: 15 personas + <b>LLM Agent</b> for post-2023 generative-AI-driven bots); governance ideas follow a 14-category typology. Deeper reads: <a href="literature_evolution/index.html">the literature story</a> · <a href="governance_evolution/index.html">the governance story</a>. 2026 is a partial year — <b>click a bar or legend entry to see the papers behind it.</b></p>
 
     <div class="mode-toggle" role="group" aria-label="Chart display mode">
       <button id="mode-abs" class="active" data-mode="abs">Absolute counts</button>
